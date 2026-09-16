@@ -1,0 +1,62 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>Druidkin</RootNamespace>
+    <AssemblyName>Druidkin</AssemblyName>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
+    <!--
+      Path to this machine's RimWorld install. Found automatically via:
+        find ~ -iname "Assembly-CSharp.dll"
+      Update this if RimWorld is reinstalled somewhere else, or on another machine/OS.
+    -->
+    <RimWorldManagedDir>/home/trog/snap/steam/common/.local/share/Steam/steamapps/common/RimWorld/RimWorldLinux_Data/Managed</RimWorldManagedDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Lib.Harmony" Version="2.3.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(RimWorldManagedDir)/Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>$(RimWorldManagedDir)/Assembly-CSharp-firstpass.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(RimWorldManagedDir)/UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(RimWorldManagedDir)/UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>$(RimWorldManagedDir)/UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>$(RimWorldManagedDir)/UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!--
+    Drops the built DLL plus Harmony (not shipped by RimWorld itself) straight
+    into the mod's Assemblies folder RimWorld loads from.
+  -->
+  <Target Name="CopyToAssemblies" AfterTargets="Build">
+    <ItemGroup>
+      <AssembliesToShip Include="$(TargetDir)Druidkin.dll" />
+      <AssembliesToShip Include="$(TargetDir)0Harmony.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(AssembliesToShip)" DestinationFolder="$(ProjectDir)../../Assemblies/" />
+  </Target>
+
+</Project>

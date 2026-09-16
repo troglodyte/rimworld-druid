@@ -1,0 +1,5 @@
+is_global = true
+build_property.RootNamespace = Druidkin
+build_property.ProjectDir = /home/trog/code/rimworld-mods/Druidkin/Source/Druidkin/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <Druidkin_ChooseForm>Choose a form</Druidkin_ChooseForm>
+  <Druidkin_RevertToHuman>Revert to human form</Druidkin_RevertToHuman>
+  <Druidkin_RevertToHumanDesc>Shed this animal body and return to your natural human form. Your gear will be returned to you.</Druidkin_RevertToHumanDesc>
+  <Druidkin_NotLivestock>This is a druid in animal form, not livestock.</Druidkin_NotLivestock>
+  <Druidkin_MustBeSpawned>Must be on a map to wild shape.</Druidkin_MustBeSpawned>
+  <Druidkin_MustBeHealthy>Cannot wild shape while downed or dead.</Druidkin_MustBeHealthy>
+  <Druidkin_AlreadyShifted>Already in an animal form.</Druidkin_AlreadyShifted>
+
+</LanguageData>

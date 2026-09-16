@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <GeneDef>
+    <defName>Druidkin_WildShape</defName>
+    <label>wild shape</label>
+    <labelShortAdj>wild-shaped</labelShortAdj>
+    <description>Carriers of this gene can shed their human body and take on the form of an animal they have attuned to, gaining its physical capability at the cost of their own tool use while shifted. They may return to their true form at will.</description>
+    <iconPath>Things/Gene/Druidkin_WildShape</iconPath>
+    <displayCategory>Ability</displayCategory>
+    <displayOrderInCategory>100</displayOrderInCategory>
+    <biostatCpx>3</biostatCpx>
+    <biostatMet>1</biostatMet>
+    <selectionWeight>1</selectionWeight>
+    <abilities>
+      <li>Druidkin_WildShapeAbility</li>
+    </abilities>
+  </GeneDef>
+
+</Defs>

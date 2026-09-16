@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- SPIKE: graft a drafted branch onto the shared vanilla Animal think tree.
+       Modelled on Anomaly's Ghoul tree, which handles draft in about this much XML.
+
+       Prepending puts it above the "keep lying down" and "Downed" nodes, which is
+       deliberately aggressive for the spike - it makes drafted orders win so we can
+       see whether they work at all. If this approach graduates, it should move below
+       those two so a downed druid stops trying to obey orders. -->
+  <Operation Class="PatchOperationInsert">
+    <xpath>/Defs/ThinkTreeDef[defName="Animal"]/thinkRoot/subNodes/li[1]</xpath>
+    <order>Prepend</order>
+    <value>
+      <li Class="Druidkin.ThinkNode_ConditionalWildShapedDrafted">
+        <subNodes>
+          <li Class="ThinkNode_Tagger">
+            <tagToGive>DraftedOrder</tagToGive>
+            <subNodes>
+              <li Class="JobGiver_MoveToStandable" />
+              <li Class="JobGiver_Orders" />
+            </subNodes>
+          </li>
+        </subNodes>
+      </li>
+    </value>
+  </Operation>
+
+</Patch>

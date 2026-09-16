@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Marker hediff placed on the animal-formed pawn. Holds a reference back to the
+    suspended original (human) pawn plus their stashed gear, and counts down the
+    shift's remaining duration. See Druidkin.Hediff_WildShapeForm.
+  -->
+  <HediffDef>
+    <defName>Druidkin_WildShapeForm</defName>
+    <label>wild shaped</label>
+    <description>This creature is a druid, currently wearing an animal's shape.</description>
+    <hediffClass>Druidkin.Hediff_WildShapeForm</hediffClass>
+    <isBad>false</isBad>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+  </HediffDef>
+
+  <!--
+    Rough carry-over of injuries the pawn had before shifting, applied as a single
+    proxy wound rather than trying to map individual body-part injuries between two
+    very different bodies (human vs quadruped etc). Heals naturally over time.
+  -->
+  <HediffDef>
+    <defName>Druidkin_ResidualWounds</defName>
+    <label>residual wounds</label>
+    <description>Damage carried over from this creature's other form.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <isBad>true</isBad>
+    <tendable>false</tendable>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.5</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <painOffset>0.1</painOffset>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>

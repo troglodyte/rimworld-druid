@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <XenotypeDef>
+    <defName>Druidkin_Druid</defName>
+    <label>druid</label>
+    <description>Humans who have bonded so closely with the natural world that they can cast off their own shape and take on that of a beast.</description>
+    <iconPath>UI/Icons/Xenotypes/Druidkin_Druid</iconPath>
+    <displayPriority>50</displayPriority>
+    <genes>
+      <li>Druidkin_WildShape</li>
+    </genes>
+  </XenotypeDef>
+
+</Defs>

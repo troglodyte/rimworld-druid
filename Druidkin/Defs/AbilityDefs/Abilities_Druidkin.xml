@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <AbilityDef>
+    <defName>Druidkin_WildShapeAbility</defName>
+    <label>wild shape</label>
+    <description>Shed your human body and take on the form of an animal you've attuned to. Your equipment and carried items are held safely and returned to you when you shift back.</description>
+    <iconPath>UI/Abilities/Druidkin_WildShape</iconPath>
+    <targetRequired>false</targetRequired>
+    <hostile>false</hostile>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
+    <showCastingProgressBar>true</showCastingProgressBar>
+    <cooldownTicksRange>2500</cooldownTicksRange>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <warmupTime>2</warmupTime>
+      <range>1.9</range>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="Druidkin.CompProperties_AbilityWildShape">
+        <durationTicks>60000</durationTicks>
+      </li>
+    </comps>
+  </AbilityDef>
+
+</Defs>

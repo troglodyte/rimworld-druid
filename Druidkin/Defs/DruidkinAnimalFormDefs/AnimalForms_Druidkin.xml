@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Each entry names a vanilla PawnKindDef to shift into. defNames verified directly
+  against this machine's installed Core Defs (RimWorld 1.6.4871):
+  Defs/ThingDefs_Races/Races_Animal_{SquirrelGroup,WildCanines,BigCats,Bears,CowGroup,SheepGroup}.xml
+-->
+<Defs>
+
+  <Druidkin.DruidkinAnimalFormDef>
+    <defName>Druidkin_Form_Rat</defName>
+    <label>rat</label>
+    <description>Small and quick. Poor combatant, good for scouting into tight spaces unseen.</description>
+    <pawnKind>Rat</pawnKind>
+  </Druidkin.DruidkinAnimalFormDef>
+
+  <Druidkin.DruidkinAnimalFormDef>
+    <defName>Druidkin_Form_TimberWolf</defName>
+    <label>timber wolf</label>
+    <description>A fast, balanced pack hunter.</description>
+    <pawnKind>Wolf_Timber</pawnKind>
+  </Druidkin.DruidkinAnimalFormDef>
+
+  <Druidkin.DruidkinAnimalFormDef>
+    <defName>Druidkin_Form_Cougar</defName>
+    <label>cougar</label>
+    <description>An agile ambush striker.</description>
+    <pawnKind>Cougar</pawnKind>
+  </Druidkin.DruidkinAnimalFormDef>
+
+  <Druidkin.DruidkinAnimalFormDef>
+    <defName>Druidkin_Form_GrizzlyBear</defName>
+    <label>grizzly bear</label>
+    <description>A heavy melee tank.</description>
+    <pawnKind>Bear_Grizzly</pawnKind>
+  </Druidkin.DruidkinAnimalFormDef>
+
+  <Druidkin.DruidkinAnimalFormDef>
+    <defName>Druidkin_Form_Muffalo</defName>
+    <label>muffalo</label>
+    <description>Sturdy and strong, equally at home fighting or hauling.</description>
+    <pawnKind>Muffalo</pawnKind>
+  </Druidkin.DruidkinAnimalFormDef>
+
+  <Druidkin.DruidkinAnimalFormDef>
+    <defName>Druidkin_Form_Megasloth</defName>
+    <label>megasloth</label>
+    <description>Enormous and armored. Slow, but extremely hard to bring down.</description>
+    <pawnKind>Megasloth</pawnKind>
+  </Druidkin.DruidkinAnimalFormDef>
+
+</Defs>

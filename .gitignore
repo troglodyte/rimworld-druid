@@ -1,0 +1,6 @@
+# Build output
+Source/**/bin/
+Source/**/obj/
+
+# IDE
+.idea/
