@@ -1,9 +1,0 @@
-/home/trog/code/rimworld-mods/Druidkin/Source/Druidkin/obj/Debug/Druidkin.csproj.AssemblyReference.cache
-/home/trog/code/rimworld-mods/Druidkin/Source/Druidkin/obj/Debug/Druidkin.GeneratedMSBuildEditorConfig.editorconfig
-/home/trog/code/rimworld-mods/Druidkin/Source/Druidkin/obj/Debug/Druidkin.csproj.CoreCompileInputs.cache
-/home/trog/code/rimworld-mods/Druidkin/Source/Druidkin/bin/Debug/Druidkin.dll
-/home/trog/code/rimworld-mods/Druidkin/Source/Druidkin/bin/Debug/Druidkin.pdb
-/home/trog/code/rimworld-mods/Druidkin/Source/Druidkin/bin/Debug/0Harmony.dll
-/home/trog/code/rimworld-mods/Druidkin/Source/Druidkin/obj/Debug/Druidkin.csproj.Up2Date
-/home/trog/code/rimworld-mods/Druidkin/Source/Druidkin/obj/Debug/Druidkin.dll
-/home/trog/code/rimworld-mods/Druidkin/Source/Druidkin/obj/Debug/Druidkin.pdb
