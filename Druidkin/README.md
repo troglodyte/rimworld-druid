@@ -8,7 +8,7 @@ Adds a "Druid" xenotype whose gene grants a Wild Shape ability: take on an anima
 Builds clean against the real RimWorld 1.6.4871 assemblies, verified on this machine at `~/snap/steam/common/.local/share/Steam/steamapps/common/RimWorld`.
 Every Def field name and API signature used here was read out of `Assembly-CSharp.dll` metadata and cross-checked against the vanilla Defs in `Data/Core`, `Data/Biotech` and `Data/Anomaly`.
 
-**The mechanics are not yet tested in-game**, and rendering is not implemented at all — a shifted druid still looks like a human.
+**Nothing here is yet tested in-game.** Mechanics and rendering are both implemented and both unverified in play.
 See [Testing checklist](#testing-checklist) for what to exercise and [Known gaps](#known-gaps) for what is missing.
 
 The mod is symlinked into the local Mods folder:
@@ -72,6 +72,16 @@ That edit is made on a field-by-field copy: the originals belong to the animal's
 The pawn that takes damage while shifted is the same pawn that carries the injuries afterwards.
 This replaced the old `Druidkin_ResidualWounds` proxy hediff entirely.
 
+**The human is hidden with skip flags, not by rebuilding the render tree.**
+Vanilla has no mechanism for rendering a humanlike pawn as something else, and the Anomaly mutant hediffs that look like precedent are not: they only add overlays on top of a human that still draws.
+What vanilla does have is `RenderSkipFlagDef`, the mechanism apparel uses to hide hair under a helmet.
+A flagged node is dropped before it draws and takes its children with it, so skipping `Body` and `Head` removes the whole human: apparel hangs off both, and hair, beard, eyes and tattoos hang off `Head`.
+The carried-thing node is a root sibling and survives, so a hauled item stays visible.
+
+**The animal graphic comes from a node class, not a `texPath`.**
+Same constraint that forced `CurStage` to be overridden: XML cannot name an animal that is chosen at runtime.
+An animal's graphic also lives per life stage rather than on its `ThingDef`, so a form draws from its last life stage - the adult - rather than whatever a pup would look like.
+
 **Duration** defaults to 60,000 ticks (one in-game day) per shift, set on `CompProperties_AbilityWildShape.durationTicks` in `Defs/AbilityDefs/Abilities_Druidkin.xml`.
 The ability cooldown is a separate and much shorter 2,500 ticks.
 Tune both to taste.
@@ -100,12 +110,14 @@ The player log at `~/snap/steam/common/.config/unity3d/Ludeon Studios/RimWorld b
 6. Draft the druid and attack something. Confirm bear claws are used rather than fists, and that hit chance is not obviously crippled.
 7. Confirm move speed and incoming damage differ between the rat and megasloth forms.
 8. Save and reload mid-shift, then confirm the form, gear, remaining duration and melee tools all survive.
-9. Revert via the gizmo and confirm weapon, apparel and inventory all come back intact.
-10. Shift again and let the timer expire on its own. Confirm the gear returns the same way.
-11. Down the druid while shifted and confirm the gear is not lost.
+9. **Confirm the druid is drawn as the animal**, with no human body, head, hair or apparel showing underneath, from all four facings.
+10. Check the colonist bar portrait and the selection shadow, both of which are expected trouble spots rather than certainties.
+11. Revert via the gizmo and confirm weapon, apparel and inventory all come back intact, and that the human is drawn again.
+12. Shift again and let the timer expire on its own. Confirm the gear returns the same way.
+13. Down the druid while shifted and confirm the gear is not lost.
 
 ## Known gaps
 
-- **Rendering is not implemented.** A shifted druid still renders as a human. Drawing the animal via the hediff's `renderNodeProperties` is well supported; suppressing the human body, head and apparel underneath is the unproven half and may need a Harmony patch on the render tree. This is deliberately last, so a working combat form exists even if rendering forces a compromise.
+- **Rendering is implemented but unverified in-game.** The two things worth watching are the colonist-bar portrait, which may still show a human because portraits may not route through `AdjustParms`, and the shadow, which is still the human's. Neither blocks the combat form.
 - The gene, xenotype and ability icons under `Textures/` are placeholder 128x128 PNGs. Overwrite them in place; the xenotype icon should stay a white silhouette, since the UI tints it.
 - Six forms are wired up: rat, timber wolf, cougar, grizzly bear, muffalo and megasloth. Add more by dropping `Druidkin.DruidkinAnimalFormDef` entries into `Defs/DruidkinAnimalFormDefs/`.

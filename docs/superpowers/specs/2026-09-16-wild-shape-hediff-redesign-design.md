@@ -83,11 +83,27 @@ without new entries, which a hand-authored stat table could not offer.
 
 ## Rendering
 
-The hediff carries `renderNodeProperties` pointing at the animal's existing texture path. Anomaly's
-`Hediffs_Mutants.xml` establishes that hediffs can drive pawn rendering this way.
+*Revised after investigation. The original text is corrected on two points, both recorded here
+because the corrections are the useful part.*
 
-Suppressing the human body, head, and apparel underneath is the unverified half and may require a
-Harmony patch on the render tree.
+The hediff carries `renderNodeProperties`, but it cannot point at a texture path: the animal is
+chosen at runtime and XML cannot name it. The entry names a `nodeClass` instead, which resolves the
+graphic from the form's `PawnKindDef`. Animal graphics live per life stage rather than on the
+`ThingDef`, so the lookup goes through the adult life stage.
+
+**The Anomaly precedent does not hold.** `Hediffs_Mutants.xml` only ever adds overlays on top of a
+human that still draws; vanilla has no mechanism anywhere for rendering a humanlike pawn as
+something else. Reading that file as support for appearance replacement was wrong.
+
+Suppression instead reuses `RenderSkipFlagDef`, the draw-time mechanism apparel uses to hide hair
+under a helmet. A flagged node is dropped before drawing and takes its children with it, so skipping
+`Body` and `Head` is sufficient for the whole human — apparel parents hang off both, and hair,
+beard, eyes and tattoos off `Head`. One Harmony postfix on the private `PawnRenderTree.AdjustParms`
+ORs those flags in while the hediff is present. The carried-thing node is a root sibling and
+survives, which is wanted.
+
+Two things remain unverified until the mod is run: whether portraits route through `AdjustParms`,
+and the pawn's shadow.
 
 ## Code removed
 

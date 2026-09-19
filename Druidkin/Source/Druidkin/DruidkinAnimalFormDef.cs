@@ -17,6 +17,14 @@ namespace Druidkin
         /// The animal's ThingDef, which is where tools, stats and health scale live.
         public ThingDef Race => pawnKind?.race;
 
+        /// An animal's graphic hangs off its life stages rather than its ThingDef, so a
+        /// form draws from the last stage - the adult - rather than whatever a pup or
+        /// calf would look like.
+        public GraphicData BodyGraphicData =>
+            pawnKind != null && !pawnKind.lifeStages.NullOrEmpty()
+                ? pawnKind.lifeStages[pawnKind.lifeStages.Count - 1].bodyGraphicData
+                : null;
+
         public override IEnumerable<string> ConfigErrors()
         {
             foreach (string error in base.ConfigErrors())
@@ -37,6 +45,11 @@ namespace Druidkin
             else if (Race.race == null)
             {
                 yield return $"race {Race.defName} has no RaceProperties, so it is not a pawn";
+            }
+
+            if (BodyGraphicData == null)
+            {
+                yield return $"pawnKind {pawnKind.defName} has no life stage body graphic to draw";
             }
 
             if (statBoostFactor <= 0f)

@@ -21,6 +21,28 @@
     <everCurableByItem>false</everCurableByItem>
     <maxSeverity>1.0</maxSeverity>
 
+    <!--
+      The druid is drawn as the animal by adding one node to their render tree, and the
+      human underneath is hidden by Patch_PawnRenderTree_AdjustParms rather than here,
+      because skip flags are applied to the whole tree at draw time.
+
+      No parentTagDef, so the node attaches at the tree root. That matters: the Body and
+      Head nodes are what get skipped, and anything parented under them would be skipped
+      along with them.
+
+      The graphic cannot be a texPath, because which animal is being worn is not known
+      until the shift happens. PawnRenderNode_WildShape resolves it from the form instead.
+    -->
+    <forceRenderTreeRecache>true</forceRenderTreeRecache>
+    <renderNodeProperties>
+      <li>
+        <debugLabel>Wild shape animal</debugLabel>
+        <nodeClass>Druidkin.PawnRenderNode_WildShape</nodeClass>
+        <workerClass>PawnRenderNodeWorker</workerClass>
+        <pawnType>HumanlikeOnly</pawnType>
+      </li>
+    </renderNodeProperties>
+
     <comps>
       <li Class="Druidkin.HediffCompProperties_WildShapeVerbs" />
     </comps>
