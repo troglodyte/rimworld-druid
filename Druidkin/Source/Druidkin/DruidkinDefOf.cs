@@ -7,7 +7,6 @@ namespace Druidkin
     public static class DruidkinDefOf
     {
         public static HediffDef Druidkin_WildShapeForm;
-        public static HediffDef Druidkin_ResidualWounds;
 
         static DruidkinDefOf()
         {

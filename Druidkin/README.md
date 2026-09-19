@@ -1,96 +1,111 @@
 # Druidkin - Wild Shape
 
-RimWorld 1.6 mod (Biotech required). Adds a "Druid" xenotype whose gene grants a
-Wild Shape ability: transform into an animal's body, keep your gear safely stashed,
-and shift back whenever you like.
+RimWorld 1.6 mod (Biotech required).
+Adds a "Druid" xenotype whose gene grants a Wild Shape ability: take on an animal's shape for combat, keep your gear safely stashed, and shift back whenever you like.
 
 ## Status
 
-Builds clean against the real RimWorld 1.6.4871 assemblies (verified on this
-machine at `~/snap/steam/common/.local/share/Steam/steamapps/common/RimWorld`).
-All Def XML field names were cross-checked by reflecting on `Assembly-CSharp.dll`
-and against the vanilla Defs shipped in `Data/Core` and `Data/Biotech`.
+Builds clean against the real RimWorld 1.6.4871 assemblies, verified on this machine at `~/snap/steam/common/.local/share/Steam/steamapps/common/RimWorld`.
+Every Def field name and API signature used here was read out of `Assembly-CSharp.dll` metadata and cross-checked against the vanilla Defs in `Data/Core`, `Data/Biotech` and `Data/Anomaly`.
 
-**Not yet tested in-game** - this environment can't drive the actual game UI.
-The mod is symlinked into your local Mods folder:
+**The mechanics are not yet tested in-game**, and rendering is not implemented at all — a shifted druid still looks like a human.
+See [Testing checklist](#testing-checklist) for what to exercise and [Known gaps](#known-gaps) for what is missing.
 
-```
+The mod is symlinked into the local Mods folder:
+
+```text
 ~/snap/steam/common/.local/share/Steam/steamapps/common/RimWorld/Mods/Druidkin
   -> ~/code/rimworld-mods/Druidkin
 ```
 
 ## How it works
 
+The druid is never replaced by another pawn.
+The same `Pawn` object stays on the map, in the player faction, for the whole shift, which is why drafting, faction and designator handling need no patching at all.
+A single hediff carries the entire transformed state, and removing it ends the transformation by any route.
+
 - `GeneDef Druidkin_WildShape` grants `AbilityDef Druidkin_WildShapeAbility`.
-- `XenotypeDef Druidkin_Druid` bundles that gene into a selectable xenotype at
-  character creation (or via a xenogerm later).
-- Using the ability opens a form-picker; picking a form:
-  1. Strips your weapon, worn apparel, and inventory into a holding list (not
-     dropped on the ground) - see `WildShapeUtility.StripGear`.
-  2. Generates the chosen animal, copies your name and needs (hunger/rest) over,
-     force-trains it so it's fully obedient/loyal, and spawns it in your place.
-  3. Despawns your human body into `Find.WorldPawns` (kept alive, not deleted).
-  4. Tags the animal with `Hediff_WildShapeForm`, which remembers your original
-     pawn + stashed gear and counts down the shift's duration.
-- A Harmony postfix on `Pawn.GetGizmos` adds a "revert to human" button to any
-  pawn wearing that hediff (the animal has no gene of its own to hang an ability
-  off, so this is injected directly). Reverting respawns your human body and
-  hands your gear back via `WildShapeUtility.RestoreGear`.
-- A second Harmony patch blocks the Slaughter designator from targeting a
-  shifted druid, since it'll otherwise sit in the Animals tab looking like
-  livestock.
+- `XenotypeDef Druidkin_Druid` bundles that gene into a selectable xenotype at character creation, or via a xenogerm later.
+- Using the ability opens a form picker.
+  Picking a form strips the druid's weapon, worn apparel and inventory into `Hediff_WildShapeForm` (not dropped on the ground) and applies that hediff to the druid.
+- The hediff holds the chosen form, the stashed gear, and the remaining duration.
+  `HediffComp_WildShapeVerbs` sources melee attacks from the animal, and the hediff's stage supplies move speed and durability.
+- Reverting — by the gizmo or by the timer running out — removes the hediff, and `PostRemoved` hands the gear back.
+  Both routes are the same code path.
+
+Two Harmony patches remain, both small.
+A postfix on `Pawn.GetGizmos` adds the "revert to human" button, since the ability itself is unavailable mid-shift.
+A postfix on `EquipmentUtility.CanEquip` refuses equipment while shifted, so a bear cannot be ordered to pick up a rifle.
+
+### Deriving the animal
+
+Everything that differs per form is computed at shift time from the animal's own defs, so adding a form stays a single `PawnKindDef` reference and forms from animal mods work with no new code.
+`statBoostFactor` on the form def scales all of it, so a druid's bear beats a wild bear.
+
+| Aspect | Source |
+| --- | --- |
+| Melee attacks | The animal's `tools`, copied and rescaled by `statBoostFactor` |
+| Move speed | The animal's `MoveSpeed` as a factor on the druid's own species base |
+| Durability | `IncomingDamageFactor`, scaled by the ratio of the two races' health scales |
+| Work and equipment | Fixed for every form, so they live in XML on the hediff stage |
 
 ## Design choices worth knowing about
 
-- **Combat model**: the animal form is a fully player-owned, obedience-trained
-  animal (auto-defends, can be given "attack" orders the way any trained combat
-  animal can) - **not** a draftable colonist. Making a non-humanlike pawn draft
-  and job-queue like a colonist requires cloning each animal's race def with a
-  custom think tree, which is a much larger and more fragile undertaking. This
-  was a deliberate scope cut for v1; flag it if you want to push further.
-- **Health**: injuries don't map organ-by-organ between a human body and, say,
-  a bear's. Instead we carry over overall health loss as one proxy
-  `Druidkin_ResidualWounds` hediff that heals over time.
-- **Duration**: default 60,000 ticks (1 in-game day) per shift, set on
-  `CompProperties_AbilityWildShape.durationTicks` in
-  `Defs/AbilityDefs/Abilities_Druidkin.xml`. Ability cooldown is a separate,
-  much shorter 2,500 ticks - tune both to taste.
+**Work is blocked by work tag, not by zeroing Manipulation.**
+Zeroing Manipulation is the obvious lever and the wrong one: `MeleeHitChance` takes a capacity offset from Manipulation (scale 12, max 1.5), so zeroing it would cripple the combat form the mod exists to create.
+`WorkTags.AllWork` is its own flag and does not imply `Violent`, so the druid stays able to fight while unable to work.
+
+**Per-form numbers come from an overridden `CurStage`, not a `StatPart`.**
+`Hediff.CurStage` is virtual, so the stage does not have to come from static XML.
+A `StatPart` would need a patch into each vanilla `StatDef`'s `parts` list, would run for every pawn's stat calculation in the game, and could not express capacity mods or damage factors at all, which live on the stage.
+The stage builder reads species values off `ThingDef`s rather than off the pawn, because asking the pawn for a stat would re-enter the stat calculation that consulted `CurStage` in the first place.
+
+**Durability is incoming damage, not health scale.**
+A pawn's body part hit points are fixed when the pawn is generated, from `RaceProperties.baseHealthScale`, so no hediff can raise them afterwards.
+Scaling incoming damage by the same ratio is the reachable equivalent of a tougher body.
+
+**Animal tools are copied, never referenced.**
+An animal's tools are pinned to body part groups its own body has — `FrontLeftPaw` on a bear — which a human body lacks, so the link is dropped to make each tool body-agnostic.
+That edit is made on a field-by-field copy: the originals belong to the animal's shared `ThingDef`, and mutating them would retune every wild animal of that species for the rest of the game.
+
+**Injuries need no special handling.**
+The pawn that takes damage while shifted is the same pawn that carries the injuries afterwards.
+This replaced the old `Druidkin_ResidualWounds` proxy hediff entirely.
+
+**Duration** defaults to 60,000 ticks (one in-game day) per shift, set on `CompProperties_AbilityWildShape.durationTicks` in `Defs/AbilityDefs/Abilities_Druidkin.xml`.
+The ability cooldown is a separate and much shorter 2,500 ticks.
+Tune both to taste.
 
 ## Building
 
-```
-export PATH="$HOME/.dotnet:$PATH"   # if using the sandbox-installed SDK
+```bash
+export PATH="$HOME/.dotnet:$PATH"
 cd Source/Druidkin
 dotnet build
 ```
 
-The csproj references RimWorld's managed DLLs directly via `RimWorldManagedDir`
-in `Druidkin.csproj` - update that path if you ever reinstall RimWorld elsewhere.
+The csproj references RimWorld's managed DLLs directly via `RimWorldManagedDir` in `Druidkin.csproj`; update that path if RimWorld is ever reinstalled elsewhere.
 A post-build step copies the built DLL straight into `Assemblies/`.
 
-## Testing checklist (do this in-game)
+## Testing checklist
 
-1. Launch RimWorld, enable **Druidkin - Wild Shape** in the Mods menu (Biotech
-   must also be enabled), restart when prompted.
-2. Start a new colony, create or edit a pawn with the **Druid** xenotype (or
-   spawn one via Dev Mode).
-3. Equip that pawn with a weapon + apparel + something in inventory, then use
-   the Wild Shape ability and confirm:
-   - the animal appears in your place, keeps the pawn's name;
-   - no errors in the dev console (`~` key) about missing PawnKindDefs/icons;
-   - gear is *not* on the ground - it's being held by the hediff.
-4. Use the "revert to human" gizmo on the animal and confirm the human pawn
-   reappears with weapon/apparel/inventory intact.
-5. Try slaughtering the shifted animal from the Animals tab - it should be
-   blocked with the "not livestock" message.
-6. Save and reload mid-shift to confirm the hediff's stored pawn/gear survive
-   a save (this exercises `Scribe_References`/`Scribe_Collections`).
+The mod cannot be exercised by an automated harness, so these are done in-game.
+The player log at `~/snap/steam/common/.config/unity3d/Ludeon Studios/RimWorld by Ludeon Studios/Player.log` carries def config errors at load and exceptions during play, and is the primary evidence channel.
 
-## Known gaps / art needed
+1. Enable **Druidkin - Wild Shape** alongside Biotech, restart, and check the log for def config errors before loading a save.
+2. Create a pawn with the **Druid** xenotype, give them a weapon, apparel and something in inventory.
+3. Shift into the grizzly bear form and confirm the pawn stays a player-faction colonist: still on the colonist bar, still selectable, no hostility.
+4. **Confirm the draft gizmo appears**, with no think-tree or gizmo patching involved. This is the defect that drove the redesign.
+5. Confirm the work tab refuses everything, and that ordering the druid to equip a weapon is refused with the "cannot hold equipment" message.
+6. Draft the druid and attack something. Confirm bear claws are used rather than fists, and that hit chance is not obviously crippled.
+7. Confirm move speed and incoming damage differ between the rat and megasloth forms.
+8. Save and reload mid-shift, then confirm the form, gear, remaining duration and melee tools all survive.
+9. Revert via the gizmo and confirm weapon, apparel and inventory all come back intact.
+10. Shift again and let the timer expire on its own. Confirm the gear returns the same way.
+11. Down the druid while shifted and confirm the gear is not lost.
 
-- The gene, xenotype, and ability icons under `Textures/` are placeholder leaf
-  PNGs (128x128). Overwrite them in place when you're ready for real art; the
-  xenotype icon should stay a white silhouette since the UI tints it.
-- Only 6 forms are wired up (Rat, Timber Wolf, Cougar, Grizzly Bear, Muffalo,
-  Megasloth). Add more by dropping additional `Druidkin.DruidkinAnimalFormDef`
-  entries in `Defs/DruidkinAnimalFormDefs/`.
+## Known gaps
+
+- **Rendering is not implemented.** A shifted druid still renders as a human. Drawing the animal via the hediff's `renderNodeProperties` is well supported; suppressing the human body, head and apparel underneath is the unproven half and may need a Harmony patch on the render tree. This is deliberately last, so a working combat form exists even if rendering forces a compromise.
+- The gene, xenotype and ability icons under `Textures/` are placeholder 128x128 PNGs. Overwrite them in place; the xenotype icon should stay a white silhouette, since the UI tints it.
+- Six forms are wired up: rat, timber wolf, cougar, grizzly bear, muffalo and megasloth. Add more by dropping `Druidkin.DruidkinAnimalFormDef` entries into `Defs/DruidkinAnimalFormDefs/`.

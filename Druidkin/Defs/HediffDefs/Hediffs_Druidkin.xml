@@ -2,40 +2,41 @@
 <Defs>
 
   <!--
-    Marker hediff placed on the animal-formed pawn. Holds a reference back to the
-    suspended original (human) pawn plus their stashed gear, and counts down the
-    shift's remaining duration. See Druidkin.Hediff_WildShapeForm.
+    The entire transformed state. The druid is not replaced by an animal pawn; this
+    hediff sits on the colonist and carries the form, the stashed gear and the
+    remaining duration. Removing it ends the shift, by any route.
+
+    What lives here is what every form shares. Everything that depends on which animal
+    was chosen - melee tools, move speed, durability - is derived at shift time in
+    Druidkin.Hediff_WildShapeForm, because XML cannot name an animal chosen at runtime.
   -->
   <HediffDef>
     <defName>Druidkin_WildShapeForm</defName>
     <label>wild shaped</label>
-    <description>This creature is a druid, currently wearing an animal's shape.</description>
+    <description>This druid is wearing an animal's shape. They can move and fight, but their paws can do no work and hold no weapon.</description>
     <hediffClass>Druidkin.Hediff_WildShapeForm</hediffClass>
     <isBad>false</isBad>
     <scenarioCanAdd>false</scenarioCanAdd>
-    <maxSeverity>1.0</maxSeverity>
-  </HediffDef>
-
-  <!--
-    Rough carry-over of injuries the pawn had before shifting, applied as a single
-    proxy wound rather than trying to map individual body-part injuries between two
-    very different bodies (human vs quadruped etc). Heals naturally over time.
-  -->
-  <HediffDef>
-    <defName>Druidkin_ResidualWounds</defName>
-    <label>residual wounds</label>
-    <description>Damage carried over from this creature's other form.</description>
-    <hediffClass>HediffWithComps</hediffClass>
-    <isBad>true</isBad>
     <tendable>false</tendable>
+    <everCurableByItem>false</everCurableByItem>
+    <maxSeverity>1.0</maxSeverity>
+
     <comps>
-      <li Class="HediffCompProperties_SeverityPerDay">
-        <severityPerDay>-0.5</severityPerDay>
-      </li>
+      <li Class="Druidkin.HediffCompProperties_WildShapeVerbs" />
     </comps>
+
     <stages>
       <li>
-        <painOffset>0.1</painOffset>
+        <!--
+          Work is blocked by tag rather than by zeroing Manipulation, which would be the
+          obvious lever but is the wrong one: MeleeHitChance takes a capacity offset from
+          Manipulation (scale 12, max 1.5), so zeroing it would cripple the combat form
+          this exists to create. AllWork is its own flag and does not imply Violent, so
+          the druid stays able to fight while being unable to work.
+        -->
+        <disabledWorkTags>
+          <li>AllWork</li>
+        </disabledWorkTags>
       </li>
     </stages>
   </HediffDef>

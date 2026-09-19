@@ -3,6 +3,10 @@
   Each entry names a vanilla PawnKindDef to shift into. defNames verified directly
   against this machine's installed Core Defs (RimWorld 1.6.4871):
   Defs/ThingDefs_Races/Races_Animal_{SquirrelGroup,WildCanines,BigCats,Bears,CowGroup,SheepGroup}.xml
+
+  statBoostFactor scales everything derived from the animal - melee power, move speed
+  and durability - so a druid's form beats the wild animal it copies. The weaker the
+  animal, the larger the boost it needs to stay worth choosing.
 -->
 <Defs>
 
@@ -11,6 +15,7 @@
     <label>rat</label>
     <description>Small and quick. Poor combatant, good for scouting into tight spaces unseen.</description>
     <pawnKind>Rat</pawnKind>
+    <statBoostFactor>1.4</statBoostFactor>
   </Druidkin.DruidkinAnimalFormDef>
 
   <Druidkin.DruidkinAnimalFormDef>
@@ -18,6 +23,7 @@
     <label>timber wolf</label>
     <description>A fast, balanced pack hunter.</description>
     <pawnKind>Wolf_Timber</pawnKind>
+    <statBoostFactor>1.25</statBoostFactor>
   </Druidkin.DruidkinAnimalFormDef>
 
   <Druidkin.DruidkinAnimalFormDef>
@@ -25,6 +31,7 @@
     <label>cougar</label>
     <description>An agile ambush striker.</description>
     <pawnKind>Cougar</pawnKind>
+    <statBoostFactor>1.2</statBoostFactor>
   </Druidkin.DruidkinAnimalFormDef>
 
   <Druidkin.DruidkinAnimalFormDef>
@@ -32,6 +39,7 @@
     <label>grizzly bear</label>
     <description>A heavy melee tank.</description>
     <pawnKind>Bear_Grizzly</pawnKind>
+    <statBoostFactor>1.15</statBoostFactor>
   </Druidkin.DruidkinAnimalFormDef>
 
   <Druidkin.DruidkinAnimalFormDef>
@@ -39,6 +47,7 @@
     <label>muffalo</label>
     <description>Sturdy and strong, equally at home fighting or hauling.</description>
     <pawnKind>Muffalo</pawnKind>
+    <statBoostFactor>1.15</statBoostFactor>
   </Druidkin.DruidkinAnimalFormDef>
 
   <Druidkin.DruidkinAnimalFormDef>
@@ -46,6 +55,7 @@
     <label>megasloth</label>
     <description>Enormous and armored. Slow, but extremely hard to bring down.</description>
     <pawnKind>Megasloth</pawnKind>
+    <statBoostFactor>1.1</statBoostFactor>
   </Druidkin.DruidkinAnimalFormDef>
 
 </Defs>
