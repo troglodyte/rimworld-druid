@@ -103,7 +103,7 @@ The mod cannot be exercised by an automated harness, so these are done in-game.
 The player log at `~/snap/steam/common/.config/unity3d/Ludeon Studios/RimWorld by Ludeon Studios/Player.log` carries def config errors at load and exceptions during play, and is the primary evidence channel.
 
 1. Enable **Druidkin - Wild Shape** alongside Biotech, restart, and check the log for def config errors before loading a save.
-2. Create a pawn with the **Druid** xenotype, give them a weapon, apparel and something in inventory.
+2. Create a pawn with the **Druid** xenotype, give them a weapon, apparel and something in inventory. Set distinctive work priorities - say Cooking 1, Doctor 2, Hauling 4 - and write them down, so steps 11 to 13 have something to check against.
 3. Shift into the grizzly bear form and confirm the pawn stays a player-faction colonist: still on the colonist bar, still selectable, no hostility.
 4. **Confirm the draft gizmo appears**, with no think-tree or gizmo patching involved. This is the defect that drove the redesign.
 5. Confirm the work tab refuses everything, and that ordering the druid to equip a weapon is refused with the "cannot hold equipment" message.
@@ -112,12 +112,14 @@ The player log at `~/snap/steam/common/.config/unity3d/Ludeon Studios/RimWorld b
 8. Save and reload mid-shift, then confirm the form, gear, remaining duration and melee tools all survive.
 9. **Confirm the druid is drawn as the animal**, with no human body, head, hair or apparel showing underneath, from all four facings.
 10. Check the colonist bar portrait and the selection shadow, both of which are expected trouble spots rather than certainties.
-11. Revert via the gizmo and confirm weapon, apparel and inventory all come back intact, and that the human is drawn again.
-12. Shift again and let the timer expire on its own. Confirm the gear returns the same way.
+11. Revert via the gizmo and confirm weapon, apparel and inventory all come back intact, and that the human is drawn again. **Confirm the work priorities from step 2 are back**, and that the log carries no "Tried to change priority on disabled worktype" error - that error means the restore ran while the work types were still disabled and silently did nothing.
+12. Shift again and let the timer expire on its own. Confirm the gear and the work priorities both return the same way.
 13. Down the druid while shifted and confirm the gear is not lost.
+14. Shift, save and reload mid-shift, then revert. Confirm the work priorities survive the round trip through the save file, not just the in-memory shift.
 
 ## Known gaps
 
+- **Work-priority restoration is implemented but unverified in-game.** `AllWork` on the hediff stage disables every work type, and vanilla zeroes a work type's priority as it becomes disabled rather than remembering it, so the hediff takes the priorities into custody at the shift and writes them back in `PostRemoved`. The open question is ordering: if the pawn's disabled-work cache has not refreshed by the time `PostRemoved` runs, every `SetPriority` call is rejected with a logged error and the restore does nothing. `Pawn.Notify_DisabledWorkTypesChanged()` is called first to force that refresh; steps 11 and 14 are what prove it.
 - **Rendering is implemented but unverified in-game.** The two things worth watching are the colonist-bar portrait, which may still show a human because portraits may not route through `AdjustParms`, and the shadow, which is still the human's. Neither blocks the combat form.
 - The gene, xenotype and ability icons under `Textures/` are placeholder 128x128 PNGs. Overwrite them in place; the xenotype icon should stay a white silhouette, since the UI tints it.
 - Six forms are wired up: rat, timber wolf, cougar, grizzly bear, muffalo and megasloth. Add more by dropping `Druidkin.DruidkinAnimalFormDef` entries into `Defs/DruidkinAnimalFormDefs/`.

@@ -57,6 +57,7 @@ namespace Druidkin
             hediff.form = form;
             hediff.ticksRemaining = durationTicks;
             hediff.TakeGear(StripGear(pawn));
+            hediff.TakeWorkPriorities(CaptureWorkPriorities(pawn));
 
             pawn.health.AddHediff(hediff);
 
@@ -78,6 +79,39 @@ namespace Druidkin
             // and the expiring timer take exactly the same path.
             pawn.health.RemoveHediff(hediff);
             pawn.jobs?.StopAll();
+        }
+
+        /// Read before the hediff is added, because adding it is what disables every work
+        /// type, and vanilla zeroes a work type's priority as it becomes disabled rather
+        /// than remembering it. Only non-zero priorities are worth keeping: zero is what
+        /// an unset work type already reads as.
+        private static Dictionary<WorkTypeDef, int> CaptureWorkPriorities(Pawn pawn)
+        {
+            Dictionary<WorkTypeDef, int> priorities = new Dictionary<WorkTypeDef, int>();
+
+            if (pawn.workSettings == null)
+            {
+                return priorities;
+            }
+
+            foreach (WorkTypeDef workType in DefDatabase<WorkTypeDef>.AllDefsListForReading)
+            {
+                // Asking for the priority of an already-disabled work type is itself an
+                // error in vanilla, and a type disabled for some other reason is not ours
+                // to restore anyway.
+                if (pawn.WorkTypeIsDisabled(workType))
+                {
+                    continue;
+                }
+
+                int priority = pawn.workSettings.GetPriority(workType);
+                if (priority > 0)
+                {
+                    priorities[workType] = priority;
+                }
+            }
+
+            return priorities;
         }
 
         /// Takes weapon, worn apparel and carried items off the druid without dropping

@@ -14,6 +14,13 @@ namespace Druidkin
         public List<Thing> storedGear = new List<Thing>();
         public int ticksRemaining;
 
+        /// Work priorities are destroyed rather than masked when the stage's AllWork tag
+        /// disables every work type, so they are the same kind of state as gear: taken
+        /// into custody when the shift starts and handed back when it ends.
+        private Dictionary<WorkTypeDef, int> storedWorkPriorities = new Dictionary<WorkTypeDef, int>();
+        private List<WorkTypeDef> workPriorityKeysWorking;
+        private List<int> workPriorityValuesWorking;
+
         /// Per-form numbers cannot come from XML, because they are derived from whichever
         /// animal was chosen. Built once on demand and dropped whenever the form changes,
         /// since CurStage is consulted constantly during stat calculation.
@@ -31,12 +38,19 @@ namespace Druidkin
             Scribe_Defs.Look(ref form, "form");
             Scribe_Collections.Look(ref storedGear, "storedGear", LookMode.Deep);
             Scribe_Values.Look(ref ticksRemaining, "ticksRemaining", 0);
+            Scribe_Collections.Look(ref storedWorkPriorities, "storedWorkPriorities", LookMode.Def,
+                LookMode.Value, ref workPriorityKeysWorking, ref workPriorityValuesWorking);
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 if (storedGear == null)
                 {
                     storedGear = new List<Thing>();
+                }
+
+                if (storedWorkPriorities == null)
+                {
+                    storedWorkPriorities = new Dictionary<WorkTypeDef, int>();
                 }
 
                 // Both are derived from defs alone, so rebuilding after load reproduces
@@ -81,6 +95,7 @@ namespace Druidkin
         {
             base.PostRemoved();
             ReturnGear();
+            RestoreWorkPriorities();
         }
 
         /// A corpse keeps its hediffs, so without this the druid's gear would be sealed
@@ -94,6 +109,42 @@ namespace Druidkin
         public void TakeGear(List<Thing> gear)
         {
             storedGear = gear ?? new List<Thing>();
+        }
+
+        public void TakeWorkPriorities(Dictionary<WorkTypeDef, int> priorities)
+        {
+            storedWorkPriorities = priorities ?? new Dictionary<WorkTypeDef, int>();
+        }
+
+        /// Vanilla refuses a priority write while the work type is still disabled - it
+        /// logs "Tried to change priority on disabled worktype" and drops the value - so
+        /// the pawn's disabled-work cache has to be rebuilt before any of these land.
+        private void RestoreWorkPriorities()
+        {
+            if (storedWorkPriorities.NullOrEmpty())
+            {
+                return;
+            }
+
+            Dictionary<WorkTypeDef, int> priorities = storedWorkPriorities;
+            storedWorkPriorities = new Dictionary<WorkTypeDef, int>();
+
+            if (pawn == null || pawn.Dead || pawn.workSettings == null)
+            {
+                return;
+            }
+
+            pawn.Notify_DisabledWorkTypesChanged();
+
+            foreach (KeyValuePair<WorkTypeDef, int> entry in priorities)
+            {
+                if (pawn.WorkTypeIsDisabled(entry.Key))
+                {
+                    continue;
+                }
+
+                pawn.workSettings.SetPriority(entry.Key, entry.Value);
+            }
         }
 
         private void ReturnGear()
