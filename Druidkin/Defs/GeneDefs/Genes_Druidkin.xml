@@ -6,6 +6,7 @@
     <label>wild shape</label>
     <labelShortAdj>wild-shaped</labelShortAdj>
     <description>Carriers of this gene can shed their human body and take on the form of an animal they have attuned to, gaining its physical capability at the cost of their own tool use while shifted. They may return to their true form at will.</description>
+    <geneClass>Druidkin.Gene_Druid</geneClass>
     <iconPath>Things/Gene/Druidkin_WildShape</iconPath>
     <displayCategory>Ability</displayCategory>
     <displayOrderInCategory>100</displayOrderInCategory>
@@ -15,6 +16,29 @@
     <abilities>
       <li>Druidkin_WildShapeAbility</li>
     </abilities>
+    <modExtensions>
+      <li Class="Druidkin.WildShapeProgressionExtension">
+        <pointsPerLevel>1</pointsPerLevel>
+        <maxLevel>20</maxLevel>
+        <xpToNextLevel>
+          <points>
+            <li>(0, 1000)</li>
+            <li>(19, 8000)</li>
+          </points>
+        </xpToNextLevel>
+        <masteryFactorByLevel>
+          <points>
+            <li>(0, 0.80)</li>
+            <li>(10, 1.00)</li>
+            <li>(20, 1.30)</li>
+          </points>
+        </masteryFactorByLevel>
+        <xpPerDayShifted>600</xpPerDayShifted>
+        <xpPerDamageDealt>4</xpPerDamageDealt>
+        <xpPerDamageTaken>2</xpPerDamageTaken>
+        <animalsXpFraction>0.5</animalsXpFraction>
+      </li>
+    </modExtensions>
   </GeneDef>
 
 </Defs>

@@ -97,9 +97,18 @@ dotnet build
 The csproj references RimWorld's managed DLLs directly via `RimWorldManagedDir` in `Druidkin.csproj`; update that path if RimWorld is ever reinstalled elsewhere.
 A post-build step copies the built DLL straight into `Assemblies/`.
 
-## Testing checklist
+## Automated Unit Tests
 
-The mod cannot be exercised by an automated harness, so these are done in-game.
+A suite of 28 NUnit tests exercises the progression mechanics, curve calculations, level thresholds, unspent points logic, talent tree graph validation (cycle detection, prerequisites, gates), polymorphic node effects, and XML starter content on disk.
+
+```bash
+export PATH="$HOME/.dotnet:$PATH"
+dotnet test Source/Druidkin.Tests
+```
+
+## In-game testing checklist
+
+Interactive UI rendering and engine hooks must be confirmed in-game.
 The player log at `~/snap/steam/common/.config/unity3d/Ludeon Studios/RimWorld by Ludeon Studios/Player.log` carries def config errors at load and exceptions during play, and is the primary evidence channel.
 
 1. Enable **Druidkin - Wild Shape** alongside Biotech, restart, and check the log for def config errors before loading a save.
@@ -116,6 +125,23 @@ The player log at `~/snap/steam/common/.config/unity3d/Ludeon Studios/RimWorld b
 12. Shift again and let the timer expire on its own. Confirm the gear and the work priorities both return the same way.
 13. Down the druid while shifted and confirm the gear is not lost.
 14. Shift, save and reload mid-shift, then revert. Confirm the work priorities survive the round trip through the save file, not just the in-memory shift.
+15. Check that a fresh druid starts at Wild Shape level 0 and has only the **rat** form available in the choose form dialog.
+16. Select a druid pawn and verify that the **Wild Shape** inspect tab is visible. Select a non-druid pawn and confirm the tab is hidden.
+17. In the Wild Shape inspect tab, verify the header displays pawn name, level (0), XP bar (0 / 1,000), power multiplier (x0.80), and unspent points (0).
+18. Use Dev Mode gizmo to add XP / level up. Confirm a positive message appears ("... reached wild shape level 1. 1 point to spend."), unspent points increase by 1 per level, and power multiplier scales according to the mastery curve.
+19. In the talent tree, click on the **wolf shape** node (level 2, requires rat, cost 1). Confirm a confirmation prompt appears warning that points cannot be refunded. Confirm learning, verify points decrement, wolf form node turns green (Learned), and the choose form dialog now includes timber wolf.
+20. Confirm that locked nodes (e.g., cougar before wolf is learned, or megasloth at level < 12) cannot be learned and their tooltip clearly indicates the reason (level, prerequisite, or insufficient points).
+21. Verify XP generation sources:
+    - **Time shifted**: observe XP incrementing every 250 ticks while shifted (`xpPerDayShifted`).
+    - **Damage taken**: take damage in animal form, confirm XP increases by `xpPerDamageTaken` per damage point.
+    - **Damage dealt**: attack a hostile pawn (outside faction), confirm XP increases by `xpPerDamageDealt` per damage dealt. Confirm sparring with a colonist or colony animal does not award XP.
+    - **Animal handling**: as human, tame or train an animal, confirm wild shape XP increases by `animalsXpFraction` of the Animals XP earned.
+22. Test form upgrades: Learn a form upgrade node (e.g., Wolf MoveSpeed +0.6 c/s or Grizzly Bear Sharp Armor +25%). Shift into that form and confirm the stat offset appears in the stat inspector. Shift into a different form or revert to human and confirm the upgrade stat applies only while in the upgraded form.
+23. Test perks:
+    - **Enduring shape**: Confirm shift duration increases by x1.5 (90,000 ticks).
+    - **Swift return**: Confirm ability cooldown is reduced by x0.5 (1,250 ticks).
+    - **Mending revert**: Injure the pawn while shifted, revert to human, and confirm up to 20 injury hit points are healed upon revert.
+24. Save and reload mid-shift: Confirm snapshotted mastery power factor and form upgrades persist across save/reload without re-rolling against current level. Load a pre-update save and confirm druids start cleanly at level 0 with the rat form.
 
 ## Known gaps
 

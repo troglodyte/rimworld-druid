@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Wild shape talent tree nodes.
+  Prefixed Druidkin_Node_.
+  Total tree cost: 24 points vs 20 available at max level 20.
+-->
+<Defs>
+
+  <!-- ==================== FORMS ==================== -->
+
+  <Druidkin.WildShapeNodeDef>
+    <defName>Druidkin_Node_Rat</defName>
+    <label>rat shape</label>
+    <description>Learn to take the shape of a rat. Small, agile, and unnoticed.</description>
+    <cost>0</cost>
+    <minLevel>0</minLevel>
+    <treePosition>(0, 0)</treePosition>
+    <effects>
+      <li Class="Druidkin.NodeEffect_UnlockForm">
+        <form>Druidkin_Form_Rat</form>
+      </li>
+    </effects>
+  </Druidkin.WildShapeNodeDef>
+
+  <Druidkin.WildShapeNodeDef>
+    <defName>Druidkin_Node_TimberWolf</defName>
+    <label>wolf shape</label>
+    <description>Learn to hold the shape of a pack hunter: fast, lean, and built to run prey down over distance.</description>
+    <cost>1</cost>
+    <minLevel>2</minLevel>
+    <prerequisites>
+      <li>Druidkin_Node_Rat</li>
+    </prerequisites>
+    <treePosition>(1, 0)</treePosition>
+    <effects>
+      <li Class="Druidkin.NodeEffect_UnlockForm">
+        <form>Druidkin_Form_TimberWolf</form>
+      </li>
+    </effects>
+  </Druidkin.WildShapeNodeDef>
+
+  <Druidkin.WildShapeNodeDef>
+    <defName>Druidkin_Node_Cougar</defName>
+    <label>cougar shape</label>
+    <description>Learn the shape of an ambush killer, trading the wolf's endurance for a burst of lethal speed.</description>
+    <cost>1</cost>
+    <minLevel>4</minLevel>
+    <prerequisites>
+      <li>Druidkin_Node_TimberWolf</li>
+    </prerequisites>
+    <treePosition>(2, 0)</treePosition>
+    <effects>
+      <li Class="Druidkin.NodeEffect_UnlockForm">
+        <form>Druidkin_Form_Cougar</form>
+      </li>
+    </effects>
+  </Druidkin.WildShapeNodeDef>
+
+  <Druidkin.WildShapeNodeDef>
+    <defName>Druidkin_Node_Muffalo</defName>
+    <label>muffalo shape</label>
+    <description>Learn the shape of a herd beast: heavy, placid, and strong enough to carry a load as easily as it takes a hit.</description>
+    <cost>1</cost>
+    <minLevel>6</minLevel>
+    <prerequisites>
+      <li>Druidkin_Node_Rat</li>
+    </prerequisites>
+    <treePosition>(0, 2)</treePosition>
+    <effects>
+      <li Class="Druidkin.NodeEffect_UnlockForm">
+        <form>Druidkin_Form_Muffalo</form>
+      </li>
+    </effects>
+  </Druidkin.WildShapeNodeDef>
+
+  <Druidkin.WildShapeNodeDef>
+    <defName>Druidkin_Node_GrizzlyBear</defName>
+    <label>bear shape</label>
+    <description>Learn the shape of a bear, where precision gives way to mass and the simple authority of claws.</description>
+    <cost>1</cost>
+    <minLevel>8</minLevel>
+    <prerequisites>
+      <li>Druidkin_Node_Muffalo</li>
+    </prerequisites>
+    <treePosition>(1, 2)</treePosition>
+    <effects>
+      <li Class="Druidkin.NodeEffect_UnlockForm">
+        <form>Druidkin_Form_GrizzlyBear</form>
+      </li>
+    </effects>
+  </Druidkin.WildShapeNodeDef>
+
+  <Druidkin.WildShapeNodeDef>
+    <defName>Druidkin_Node_Megasloth</defName>
+    <label>megasloth shape</label>
+    <description>Learn the shape of a megasloth, which asks the druid to hold something far larger than themselves and keep hold of it.</description>
+    <cost>2</cost>
+    <minLevel>12</minLevel>
+    <prerequisites>
+      <li>Druidkin_Node_GrizzlyBear</li>
+    </prerequisites>
+    <treePosition>(2, 2)</treePosition>
+    <effects>
+      <li Class="Druidkin.NodeEffect_UnlockForm">
+        <form>Druidkin_Form_Megasloth</form>
+      </li>
+    </effects>
+  </Druidkin.WildShapeNodeDef>
+
+  <!-- ==================== FORM UPGRADES ==================== -->
+
+  <Druidkin.WildShapeNodeDef>
+    <defName>Druidkin_Node_UpgradeRat</defName>
+    <label>scurrying speed</label>
+    <description>Master the rapid, darting gait of a rodent. Increases rat form move speed by +0.50 c/s.</description>
+    <cost>2</cost>
+    <minLevel>1</minLevel>
+    <prerequisites>
+      <li>Druidkin_Node_Rat</li>
+    </prerequisites>
+    <treePosition>(0, 1)</treePosition>
+    <effects>
+      <li Class="Druidkin.NodeEffect_FormUpgrade">
+        <form>Druidkin_Form_Rat</form>
+        <stat>MoveSpeed</stat>
+        <offset>0.50</offset>
+      </li>
+    </effects>
+  </Druidkin.WildShapeNodeDef>
+
+  <Druidkin.WildShapeNodeDef>
+    <defName>Druidkin_Node_UpgradeTimberWolf</defName>
+    <label>pack pursuit</label>
+    <description>Attune to the wolf's tireless loping stride. Increases timber wolf move speed by +0.60 c/s.</description>
+    <cost>2</cost>
+    <minLevel>3</minLevel>
+    <prerequisites>
+      <li>Druidkin_Node_TimberWolf</li>
+    </prerequisites>
+    <treePosition>(1, 1)</treePosition>
+    <effects>
+      <li Class="Druidkin.NodeEffect_FormUpgrade">
+        <form>Druidkin_Form_TimberWolf</form>
+        <stat>MoveSpeed</stat>
+        <offset>0.60</offset>
+      </li>
+    </effects>
+  </Druidkin.WildShapeNodeDef>
+
+  <Druidkin.WildShapeNodeDef>
+    <defName>Druidkin_Node_UpgradeCougar</defName>
+    <label>ambush lethalness</label>
+    <description>Hone the cat's predatory reflexes. Increases cougar melee hit chance by +2.0.</description>
+    <cost>2</cost>
+    <minLevel>5</minLevel>
+    <prerequisites>
+      <li>Druidkin_Node_Cougar</li>
+    </prerequisites>
+    <treePosition>(2, 1)</treePosition>
+    <effects>
+      <li Class="Druidkin.NodeEffect_FormUpgrade">
+        <form>Druidkin_Form_Cougar</form>
+        <stat>MeleeHitChance</stat>
+        <offset>2.0</offset>
+      </li>
+    </effects>
+  </Druidkin.WildShapeNodeDef>
+
+  <Druidkin.WildShapeNodeDef>
+    <defName>Druidkin_Node_UpgradeMuffalo</defName>
+    <label>thick wool</label>
+    <description>Weave thick layers of insulating wool. Grants the muffalo form +20% blunt armor.</description>
+    <cost>2</cost>
+    <minLevel>7</minLevel>
+    <prerequisites>
+      <li>Druidkin_Node_Muffalo</li>
+    </prerequisites>
+    <treePosition>(0, 3)</treePosition>
+    <effects>
+      <li Class="Druidkin.NodeEffect_FormUpgrade">
+        <form>Druidkin_Form_Muffalo</form>
+        <stat>ArmorRating_Blunt</stat>
+        <offset>0.20</offset>
+      </li>
+    </effects>
+  </Druidkin.WildShapeNodeDef>
+
+  <Druidkin.WildShapeNodeDef>
+    <defName>Druidkin_Node_UpgradeGrizzlyBear</defName>
+    <label>iron hide</label>
+    <description>Harden the bear's dense muscle and fat layers. Grants the grizzly bear form +25% sharp armor.</description>
+    <cost>2</cost>
+    <minLevel>9</minLevel>
+    <prerequisites>
+      <li>Druidkin_Node_GrizzlyBear</li>
+    </prerequisites>
+    <treePosition>(1, 3)</treePosition>
+    <effects>
+      <li Class="Druidkin.NodeEffect_FormUpgrade">
+        <form>Druidkin_Form_GrizzlyBear</form>
+        <stat>ArmorRating_Sharp</stat>
+        <offset>0.25</offset>
+      </li>
+    </effects>
+  </Druidkin.WildShapeNodeDef>
+
+  <Druidkin.WildShapeNodeDef>
+    <defName>Druidkin_Node_UpgradeMegasloth</defName>
+    <label>ancient plating</label>
+    <description>Thicken the megasloth's sub-dermal osteoderms. Grants the megasloth form +30% sharp armor.</description>
+    <cost>2</cost>
+    <minLevel>13</minLevel>
+    <prerequisites>
+      <li>Druidkin_Node_Megasloth</li>
+    </prerequisites>
+    <treePosition>(2, 3)</treePosition>
+    <effects>
+      <li Class="Druidkin.NodeEffect_FormUpgrade">
+        <form>Druidkin_Form_Megasloth</form>
+        <stat>ArmorRating_Sharp</stat>
+        <offset>0.30</offset>
+      </li>
+    </effects>
+  </Druidkin.WildShapeNodeDef>
+
+  <!-- ==================== PERKS ==================== -->
+
+  <Druidkin.WildShapeNodeDef>
+    <defName>Druidkin_Node_Perk_EnduringShape</defName>
+    <label>enduring shape</label>
+    <description>Anchor your animal forms deeper into your spirit. Multiplies shift duration by x1.5.</description>
+    <cost>2</cost>
+    <minLevel>3</minLevel>
+    <treePosition>(3.3, 0.2)</treePosition>
+    <effects>
+      <li Class="Druidkin.NodeEffect_Perk">
+        <shiftDurationFactor>1.5</shiftDurationFactor>
+      </li>
+    </effects>
+  </Druidkin.WildShapeNodeDef>
+
+  <Druidkin.WildShapeNodeDef>
+    <defName>Druidkin_Node_Perk_SwiftReturn</defName>
+    <label>swift return</label>
+    <description>Ease the strain of shedding animal essence. Cuts wild shape cooldown in half (x0.5).</description>
+    <cost>2</cost>
+    <minLevel>5</minLevel>
+    <treePosition>(3.3, 1.2)</treePosition>
+    <effects>
+      <li Class="Druidkin.NodeEffect_Perk">
+        <cooldownFactor>0.5</cooldownFactor>
+      </li>
+    </effects>
+  </Druidkin.WildShapeNodeDef>
+
+  <Druidkin.WildShapeNodeDef>
+    <defName>Druidkin_Node_Perk_MendingRevert</defName>
+    <label>mending revert</label>
+    <description>Returning to human form knits wounded flesh and seals lacerations. Restores up to 20 health across injuries on revert.</description>
+    <cost>2</cost>
+    <minLevel>10</minLevel>
+    <treePosition>(3.3, 2.2)</treePosition>
+    <effects>
+      <li Class="Druidkin.NodeEffect_Perk">
+        <healOnRevert>20</healOnRevert>
+      </li>
+    </effects>
+  </Druidkin.WildShapeNodeDef>
+
+</Defs>

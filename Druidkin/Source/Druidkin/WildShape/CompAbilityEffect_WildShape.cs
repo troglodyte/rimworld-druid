@@ -20,7 +20,19 @@ namespace Druidkin
         public override void Apply(LocalTargetInfo target, LocalTargetInfo dest)
         {
             base.Apply(target, dest);
-            Find.WindowStack.Add(new Dialog_ChooseAnimalForm(parent.pawn, Props.durationTicks));
+
+            Gene_Druid gene = parent.pawn?.genes?.GetFirstGeneOfType<Gene_Druid>();
+            int duration = gene != null ? gene.ShiftDurationTicks(Props.durationTicks) : Props.durationTicks;
+
+            Find.WindowStack.Add(new Dialog_ChooseAnimalForm(parent.pawn, duration, this));
+        }
+
+        public void Notify_SuccessfulTransform()
+        {
+            Gene_Druid gene = parent.pawn?.genes?.GetFirstGeneOfType<Gene_Druid>();
+            int baseCooldown = parent.def.cooldownTicksRange.min;
+            int finalCooldown = gene != null ? gene.CooldownTicks(baseCooldown) : baseCooldown;
+            parent.StartCooldown(finalCooldown);
         }
     }
 }

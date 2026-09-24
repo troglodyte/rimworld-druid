@@ -14,6 +14,12 @@ namespace Druidkin
         public List<Thing> storedGear = new List<Thing>();
         public int ticksRemaining;
 
+        /// Mastery multiplier snapshot as it stood when this shift began.
+        private float masteryFactor = 1f;
+
+        /// Copy of the druid's learned talent nodes snapshot when the shift began.
+        private List<WildShapeNodeDef> snapshotNodes = new List<WildShapeNodeDef>();
+
         /// Work priorities are destroyed rather than masked when the stage's AllWork tag
         /// disables every work type, so they are the same kind of state as gear: taken
         /// into custody when the shift starts and handed back when it ends.
@@ -22,7 +28,8 @@ namespace Druidkin
         private List<int> workPriorityValuesWorking;
 
         /// Per-form numbers cannot come from XML, because they are derived from whichever
-        /// animal was chosen. Built once on demand and dropped whenever the form changes,
+        /// animal was chosen and scaled by the snapshotted mastery and talent upgrades.
+        /// Built once on demand and dropped whenever the form changes,
         /// since CurStage is consulted constantly during stat calculation.
         private HediffStage cachedStage;
 
@@ -38,6 +45,8 @@ namespace Druidkin
             Scribe_Defs.Look(ref form, "form");
             Scribe_Collections.Look(ref storedGear, "storedGear", LookMode.Deep);
             Scribe_Values.Look(ref ticksRemaining, "ticksRemaining", 0);
+            Scribe_Values.Look(ref masteryFactor, "masteryFactor", 1f);
+            Scribe_Collections.Look(ref snapshotNodes, "snapshotNodes", LookMode.Def);
             Scribe_Collections.Look(ref storedWorkPriorities, "storedWorkPriorities", LookMode.Def,
                 LookMode.Value, ref workPriorityKeysWorking, ref workPriorityValuesWorking);
 
@@ -53,6 +62,15 @@ namespace Druidkin
                     storedWorkPriorities = new Dictionary<WorkTypeDef, int>();
                 }
 
+                if (snapshotNodes == null)
+                {
+                    snapshotNodes = new List<WildShapeNodeDef>();
+                }
+                else
+                {
+                    snapshotNodes.RemoveAll(n => n == null);
+                }
+
                 // Both are derived from defs alone, so rebuilding after load reproduces
                 // them exactly rather than needing to be saved.
                 RefreshDerivedState();
@@ -62,6 +80,15 @@ namespace Druidkin
         public override void PostAdd(DamageInfo? dinfo)
         {
             base.PostAdd(dinfo);
+
+            // PostAdd runs when a shift begins and not when a save is loaded, which is
+            // what keeps saved shifts running at the power they started with.
+            Gene_Druid gene = pawn?.genes?.GetFirstGeneOfType<Gene_Druid>();
+            masteryFactor = gene?.MasteryFactor ?? 1f;
+            snapshotNodes = gene?.LearnedNodes != null
+                ? new List<WildShapeNodeDef>(gene.LearnedNodes)
+                : new List<WildShapeNodeDef>();
+
             RefreshDerivedState();
         }
 
@@ -96,6 +123,11 @@ namespace Druidkin
             base.PostRemoved();
             ReturnGear();
             RestoreWorkPriorities();
+
+            // Revert hooks read the live learned list, not the snapshot, since revert
+            // is its own distinct moment.
+            Gene_Druid gene = pawn?.genes?.GetFirstGeneOfType<Gene_Druid>();
+            gene?.NotifyReverted();
         }
 
         /// A corpse keeps its hediffs, so without this the druid's gear would be sealed
@@ -211,7 +243,7 @@ namespace Druidkin
                 return stage;
             }
 
-            float boost = Mathf.Max(0.01f, form.statBoostFactor);
+            float boost = Mathf.Max(0.01f, form.statBoostFactor * masteryFactor);
 
             // Read the animal's and the colonist's own species values off their ThingDefs
             // rather than off the pawn. Asking the pawn for a stat here would re-enter
@@ -239,6 +271,24 @@ namespace Druidkin
                     stat = StatDefOf.IncomingDamageFactor,
                     value = ownHealth / (animalHealth * boost)
                 });
+            }
+
+            // Apply talent upgrades snapshotted for this shift
+            if (snapshotNodes != null)
+            {
+                for (int i = 0; i < snapshotNodes.Count; i++)
+                {
+                    WildShapeNodeDef node = snapshotNodes[i];
+                    if (node?.effects == null)
+                    {
+                        continue;
+                    }
+
+                    for (int j = 0; j < node.effects.Count; j++)
+                    {
+                        node.effects[j].ApplyToStage(form, stage);
+                    }
+                }
             }
 
             return stage;

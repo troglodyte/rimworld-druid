@@ -45,6 +45,7 @@
 
     <comps>
       <li Class="Druidkin.HediffCompProperties_WildShapeVerbs" />
+      <li Class="Druidkin.HediffCompProperties_WildShapeXp" />
     </comps>
 
     <stages>

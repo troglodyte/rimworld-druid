@@ -2,11 +2,40 @@
 <LanguageData>
 
   <Druidkin_ChooseForm>Choose a form</Druidkin_ChooseForm>
+  <Druidkin_ChooseFormSummary>Level {0} · Forms at {1} power</Druidkin_ChooseFormSummary>
+  <Druidkin_NoFormsUnlocked>No animal forms unlocked. Learn forms in the Wild Shape tab.</Druidkin_NoFormsUnlocked>
   <Druidkin_RevertToHuman>Revert to human form</Druidkin_RevertToHuman>
   <Druidkin_RevertToHumanDesc>Shed this animal body and return to your natural human form. Your gear will be returned to you.</Druidkin_RevertToHumanDesc>
   <Druidkin_MustBeSpawned>Must be on a map to wild shape.</Druidkin_MustBeSpawned>
   <Druidkin_MustBeHealthy>Cannot wild shape while downed or dead.</Druidkin_MustBeHealthy>
   <Druidkin_AlreadyShifted>Already in an animal form.</Druidkin_AlreadyShifted>
   <Druidkin_CannotEquipWhileShifted>Cannot hold equipment while wild shaped.</Druidkin_CannotEquipWhileShifted>
+
+  <!-- Inspect Tab & Talent Tree -->
+  <Druidkin_TabWildShape>Wild Shape</Druidkin_TabWildShape>
+  <Druidkin_Level>Level {0}</Druidkin_Level>
+  <Druidkin_MaxLevel>MAX LEVEL</Druidkin_MaxLevel>
+  <Druidkin_XpBarTooltip>Experience progress towards the next level: {0} / {1} XP.</Druidkin_XpBarTooltip>
+  <Druidkin_PowerMultiplier>Power x{0}</Druidkin_PowerMultiplier>
+  <Druidkin_UnspentPointsSingle>Points: {0} unspent</Druidkin_UnspentPointsSingle>
+  <Druidkin_UnspentPointsPlural>Points: {0} unspent</Druidkin_UnspentPointsPlural>
+  <Druidkin_CategoryForms>FORMS</Druidkin_CategoryForms>
+  <Druidkin_CategoryPerks>PERKS</Druidkin_CategoryPerks>
+  <Druidkin_NodeStatusLearned>Learned</Druidkin_NodeStatusLearned>
+  <Druidkin_NodeCostSingle>Cost: {0} pt</Druidkin_NodeCostSingle>
+  <Druidkin_NodeCostPlural>Cost: {0} pts</Druidkin_NodeCostPlural>
+  <Druidkin_RequiresLevelShort>Lvl {0}</Druidkin_RequiresLevelShort>
+  <Druidkin_NodeRequiresLevel>Requires level {0}</Druidkin_NodeRequiresLevel>
+  <Druidkin_NodeRequiresPrereq>Requires {0}</Druidkin_NodeRequiresPrereq>
+  <Druidkin_NodeClickToLearn>Click to learn</Druidkin_NodeClickToLearn>
+  <Druidkin_NodeLocked>Locked</Druidkin_NodeLocked>
+  <Druidkin_NodeAlreadyLearned>Already learned</Druidkin_NodeAlreadyLearned>
+  <Druidkin_NodeNotEnoughPoints>Requires {0} unspent point(s)</Druidkin_NodeNotEnoughPoints>
+  <Druidkin_NodeInvalid>Invalid node</Druidkin_NodeInvalid>
+  <Druidkin_ConfirmLearnPrompt>Learn {0} for {1} point(s)? Points spent cannot be refunded.</Druidkin_ConfirmLearnPrompt>
+
+  <!-- Level up messages -->
+  <Druidkin_LevelUpSingle>{PAWN_labelShort} reached wild shape level {0}. 1 point to spend.</Druidkin_LevelUpSingle>
+  <Druidkin_LevelUpPlural>{PAWN_labelShort} reached wild shape level {0}. {1} points to spend.</Druidkin_LevelUpPlural>
 
 </LanguageData>

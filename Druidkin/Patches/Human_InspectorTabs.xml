@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!--
+    Add ITab_Pawn_WildShape to Human / BasePawn inspectorTabs.
+    The tab's IsVisible property ensures it is only shown when the selected pawn has Gene_Druid.
+  -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>Defs/ThingDef[defName="Human"]/inspectorTabs</xpath>
+    <match Class="PatchOperationAdd">
+      <xpath>Defs/ThingDef[defName="Human"]/inspectorTabs</xpath>
+      <value>
+        <li>Druidkin.ITab_Pawn_WildShape</li>
+      </value>
+    </match>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>Defs/ThingDef[@Name="BasePawn"]/inspectorTabs</xpath>
+      <value>
+        <li>Druidkin.ITab_Pawn_WildShape</li>
+      </value>
+    </nomatch>
+  </Operation>
+
+</Patch>
