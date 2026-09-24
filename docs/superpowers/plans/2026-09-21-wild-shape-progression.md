@@ -1,5 +1,7 @@
 # Wild Shape Progression Implementation Plan
 
+> **Superseded** by `2026-09-23-wild-shape-talent-tree-design.md`: per-druid talent tree, no research, no SkillDef.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Gate which animal forms a colony can use behind research, and scale how strong each form is

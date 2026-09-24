@@ -1,5 +1,7 @@
 # Wild Shape progression: research gates and a mastery skill
 
+> **Superseded** by `2026-09-23-wild-shape-talent-tree-design.md`: per-druid talent tree, no research, no SkillDef.
+
 ## Problem
 
 Every druid can become a megasloth on the day they are born. `Dialog_ChooseAnimalForm` lists
