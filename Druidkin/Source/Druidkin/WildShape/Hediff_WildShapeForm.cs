@@ -27,6 +27,12 @@ namespace Druidkin
         private List<WorkTypeDef> workPriorityKeysWorking;
         private List<int> workPriorityValuesWorking;
 
+        /// Share of the worn armor's overall rating, fixed when the shift began because
+        /// the apparel is no longer worn afterwards. See ArmorCarryover.
+        private Dictionary<StatDef, float> carriedArmor = new Dictionary<StatDef, float>();
+        private List<StatDef> carriedArmorKeysWorking;
+        private List<float> carriedArmorValuesWorking;
+
         /// Per-form numbers cannot come from XML, because they are derived from whichever
         /// animal was chosen and scaled by the snapshotted mastery and talent upgrades.
         /// Built once on demand and dropped whenever the form changes,
@@ -49,6 +55,8 @@ namespace Druidkin
             Scribe_Collections.Look(ref snapshotNodes, "snapshotNodes", LookMode.Def);
             Scribe_Collections.Look(ref storedWorkPriorities, "storedWorkPriorities", LookMode.Def,
                 LookMode.Value, ref workPriorityKeysWorking, ref workPriorityValuesWorking);
+            Scribe_Collections.Look(ref carriedArmor, "carriedArmor", LookMode.Def,
+                LookMode.Value, ref carriedArmorKeysWorking, ref carriedArmorValuesWorking);
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
@@ -61,6 +69,12 @@ namespace Druidkin
                 {
                     storedWorkPriorities = new Dictionary<WorkTypeDef, int>();
                 }
+
+                if (carriedArmor == null)
+                {
+                    carriedArmor = new Dictionary<StatDef, float>();
+                }
+                carriedArmor.RemoveAll(entry => entry.Key == null);
 
                 if (snapshotNodes == null)
                 {
@@ -141,6 +155,11 @@ namespace Druidkin
         public void TakeGear(List<Thing> gear)
         {
             storedGear = gear ?? new List<Thing>();
+        }
+
+        public void TakeArmor(Dictionary<StatDef, float> armor)
+        {
+            carriedArmor = armor ?? new Dictionary<StatDef, float>();
         }
 
         public void TakeWorkPriorities(Dictionary<WorkTypeDef, int> priorities)
@@ -271,6 +290,11 @@ namespace Druidkin
                     stat = StatDefOf.IncomingDamageFactor,
                     value = ownHealth / (animalHealth * boost)
                 });
+            }
+
+            foreach (KeyValuePair<StatDef, float> armor in carriedArmor)
+            {
+                stage.statOffsets.Add(new StatModifier { stat = armor.Key, value = armor.Value });
             }
 
             // Apply talent upgrades snapshotted for this shift

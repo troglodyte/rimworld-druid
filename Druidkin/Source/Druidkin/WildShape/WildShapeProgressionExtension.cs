@@ -28,5 +28,8 @@ namespace Druidkin
 
         /// Fraction of Animals skill XP gained that is mirrored to wild shape progression.
         public float animalsXpFraction = 0.5f;
+
+        /// Fraction of the worn armor's overall rating that protects the druid while shifted.
+        public float armorCarryoverFraction = 0.75f;
     }
 }
