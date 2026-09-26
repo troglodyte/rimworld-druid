@@ -315,9 +315,14 @@ namespace Druidkin
 
         public override IEnumerable<Gizmo> GetGizmos()
         {
-            foreach (Gizmo g in base.GetGizmos())
+            // Vanilla Gene.GetGizmos returns null, not an empty sequence.
+            IEnumerable<Gizmo> baseGizmos = base.GetGizmos();
+            if (baseGizmos != null)
             {
-                yield return g;
+                foreach (Gizmo g in baseGizmos)
+                {
+                    yield return g;
+                }
             }
 
             if (Prefs.DevMode)
