@@ -101,7 +101,7 @@
 
 ### 6. Dev Mode Tools ([`Gene_Druid`](../../../Druidkin/Source/Druidkin/WildShape/Gene_Druid.cs))
 
-- [ ] Enable Dev Mode in options, select a druid, and test all 3 debug gizmos:
+- [ ] Enable Dev Mode and God Mode, select a druid, and test all 3 debug gizmos:
   - [ ] `DEV: +1000 Wild Shape XP` increments XP by 1,000.
   - [ ] `DEV: +1 Wild Shape Level` pushes druid to next level threshold, awards 1 point, and triggers level-up message.
   - [ ] `DEV: Reset Druid` resets level to 0, clears learned nodes, and auto-learns Rat form.

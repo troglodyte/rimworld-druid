@@ -325,7 +325,7 @@ namespace Druidkin
                 }
             }
 
-            if (Prefs.DevMode)
+            if (DebugSettings.ShowDevGizmos)
             {
                 yield return new Command_Action
                 {
