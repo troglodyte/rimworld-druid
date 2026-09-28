@@ -63,6 +63,9 @@ namespace Druidkin.Tests
             Assert.That(ext.xpPerDamageDealt, Is.EqualTo(4f));
             Assert.That(ext.xpPerDamageTaken, Is.EqualTo(2f));
             Assert.That(ext.animalsXpFraction, Is.EqualTo(0.5f));
+            Assert.That(ext.armorCarryoverFraction, Is.EqualTo(0.75f));
+            Assert.That(ext.weaponDamageCarryoverFraction, Is.EqualTo(0.5f));
+            Assert.That(ext.referenceMeleeDps, Is.EqualTo(20f));
         }
 
         [Test]

@@ -31,5 +31,11 @@ namespace Druidkin
 
         /// Fraction of the worn armor's overall rating that protects the druid while shifted.
         public float armorCarryoverFraction = 0.75f;
+
+        /// Fraction of equipped melee weapon damage/DPS carried over to increase animal melee damage while shifted.
+        public float weaponDamageCarryoverFraction = 0.5f;
+
+        /// Benchmark melee DPS used to convert weapon DPS into a damage factor offset (default 20 DPS).
+        public float referenceMeleeDps = 20f;
     }
 }

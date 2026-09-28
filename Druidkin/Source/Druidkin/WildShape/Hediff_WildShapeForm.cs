@@ -33,6 +33,11 @@ namespace Druidkin
         private List<StatDef> carriedArmorKeysWorking;
         private List<float> carriedArmorValuesWorking;
 
+        /// Melee damage factor offset carried over from equipped weapon when the shift began.
+        private float carriedMeleeDamageFactor = 0f;
+
+        public float CarriedMeleeDamageFactor => carriedMeleeDamageFactor;
+
         /// Per-form numbers cannot come from XML, because they are derived from whichever
         /// animal was chosen and scaled by the snapshotted mastery and talent upgrades.
         /// Built once on demand and dropped whenever the form changes,
@@ -57,6 +62,7 @@ namespace Druidkin
                 LookMode.Value, ref workPriorityKeysWorking, ref workPriorityValuesWorking);
             Scribe_Collections.Look(ref carriedArmor, "carriedArmor", LookMode.Def,
                 LookMode.Value, ref carriedArmorKeysWorking, ref carriedArmorValuesWorking);
+            Scribe_Values.Look(ref carriedMeleeDamageFactor, "carriedMeleeDamageFactor", 0f);
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
@@ -160,6 +166,11 @@ namespace Druidkin
         public void TakeArmor(Dictionary<StatDef, float> armor)
         {
             carriedArmor = armor ?? new Dictionary<StatDef, float>();
+        }
+
+        public void TakeWeaponBonus(float bonus)
+        {
+            carriedMeleeDamageFactor = Mathf.Max(0f, bonus);
         }
 
         public void TakeWorkPriorities(Dictionary<WorkTypeDef, int> priorities)
@@ -295,6 +306,15 @@ namespace Druidkin
             foreach (KeyValuePair<StatDef, float> armor in carriedArmor)
             {
                 stage.statOffsets.Add(new StatModifier { stat = armor.Key, value = armor.Value });
+            }
+
+            if (carriedMeleeDamageFactor > 0f)
+            {
+                stage.statOffsets.Add(new StatModifier
+                {
+                    stat = StatDefOf.MeleeDamageFactor,
+                    value = carriedMeleeDamageFactor
+                });
             }
 
             // Apply talent upgrades snapshotted for this shift

@@ -56,8 +56,12 @@ namespace Druidkin
             // are derived from the form, and adding it is what triggers that derivation.
             hediff.form = form;
             hediff.ticksRemaining = durationTicks;
-            float armorFraction = pawn.genes?.GetFirstGeneOfType<Gene_Druid>()?.Progression?.armorCarryoverFraction ?? 0f;
+            Gene_Druid druidGene = pawn.genes?.GetFirstGeneOfType<Gene_Druid>();
+            float armorFraction = druidGene?.Progression?.armorCarryoverFraction ?? 0f;
             hediff.TakeArmor(ArmorCarryover.FromWornApparel(pawn, armorFraction));
+            float weaponFraction = druidGene?.Progression?.weaponDamageCarryoverFraction ?? 0f;
+            float refDps = druidGene?.Progression?.referenceMeleeDps ?? WeaponCarryover.DefaultReferenceMeleeDps;
+            hediff.TakeWeaponBonus(WeaponCarryover.FromEquippedWeapon(pawn, weaponFraction, refDps));
             hediff.TakeGear(StripGear(pawn));
             hediff.TakeWorkPriorities(CaptureWorkPriorities(pawn));
 

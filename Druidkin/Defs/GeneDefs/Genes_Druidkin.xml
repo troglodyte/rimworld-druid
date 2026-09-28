@@ -38,6 +38,7 @@
         <xpPerDamageTaken>2</xpPerDamageTaken>
         <animalsXpFraction>0.5</animalsXpFraction>
         <armorCarryoverFraction>0.75</armorCarryoverFraction>
+        <weaponDamageCarryoverFraction>0.5</weaponDamageCarryoverFraction>
       </li>
     </modExtensions>
   </GeneDef>
