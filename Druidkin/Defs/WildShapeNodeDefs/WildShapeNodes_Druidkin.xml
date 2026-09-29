@@ -112,7 +112,7 @@
   <Druidkin.WildShapeNodeDef>
     <defName>Druidkin_Node_UpgradeRat</defName>
     <label>scurrying speed</label>
-    <description>Master the rapid, darting gait of a rodent. Increases rat form move speed by +0.50 c/s.</description>
+    <description>Master the rapid, darting gait of a rodent. Increases wild shape move speed by +0.50 c/s.</description>
     <cost>2</cost>
     <minLevel>1</minLevel>
     <prerequisites>
@@ -121,7 +121,6 @@
     <treePosition>(0, 1)</treePosition>
     <effects>
       <li Class="Druidkin.NodeEffect_FormUpgrade">
-        <form>Druidkin_Form_Rat</form>
         <stat>MoveSpeed</stat>
         <offset>0.50</offset>
       </li>
@@ -131,7 +130,7 @@
   <Druidkin.WildShapeNodeDef>
     <defName>Druidkin_Node_UpgradeTimberWolf</defName>
     <label>pack pursuit</label>
-    <description>Attune to the wolf's tireless loping stride. Increases timber wolf move speed by +0.60 c/s.</description>
+    <description>Attune to the wolf's tireless loping stride. Increases wild shape move speed by +0.60 c/s.</description>
     <cost>2</cost>
     <minLevel>3</minLevel>
     <prerequisites>
@@ -140,7 +139,6 @@
     <treePosition>(1, 1)</treePosition>
     <effects>
       <li Class="Druidkin.NodeEffect_FormUpgrade">
-        <form>Druidkin_Form_TimberWolf</form>
         <stat>MoveSpeed</stat>
         <offset>0.60</offset>
       </li>
@@ -150,7 +148,7 @@
   <Druidkin.WildShapeNodeDef>
     <defName>Druidkin_Node_UpgradeCougar</defName>
     <label>ambush lethalness</label>
-    <description>Hone the cat's predatory reflexes. Increases cougar melee hit chance by +2.0.</description>
+    <description>Hone the cat's predatory reflexes. Increases wild shape melee hit chance by +2.0.</description>
     <cost>2</cost>
     <minLevel>5</minLevel>
     <prerequisites>
@@ -159,7 +157,6 @@
     <treePosition>(2, 1)</treePosition>
     <effects>
       <li Class="Druidkin.NodeEffect_FormUpgrade">
-        <form>Druidkin_Form_Cougar</form>
         <stat>MeleeHitChance</stat>
         <offset>2.0</offset>
       </li>
@@ -169,7 +166,7 @@
   <Druidkin.WildShapeNodeDef>
     <defName>Druidkin_Node_UpgradeMuffalo</defName>
     <label>thick wool</label>
-    <description>Weave thick layers of insulating wool. Grants the muffalo form +20% blunt armor.</description>
+    <description>Weave thick layers of insulating wool. Grants wild shape +20% blunt armor.</description>
     <cost>2</cost>
     <minLevel>7</minLevel>
     <prerequisites>
@@ -178,7 +175,6 @@
     <treePosition>(0, 3)</treePosition>
     <effects>
       <li Class="Druidkin.NodeEffect_FormUpgrade">
-        <form>Druidkin_Form_Muffalo</form>
         <stat>ArmorRating_Blunt</stat>
         <offset>0.20</offset>
       </li>
@@ -188,7 +184,7 @@
   <Druidkin.WildShapeNodeDef>
     <defName>Druidkin_Node_UpgradeGrizzlyBear</defName>
     <label>iron hide</label>
-    <description>Harden the bear's dense muscle and fat layers. Grants the grizzly bear form +25% sharp armor.</description>
+    <description>Harden the bear's dense muscle and fat layers. Grants wild shape +25% sharp armor.</description>
     <cost>2</cost>
     <minLevel>9</minLevel>
     <prerequisites>
@@ -197,7 +193,6 @@
     <treePosition>(1, 3)</treePosition>
     <effects>
       <li Class="Druidkin.NodeEffect_FormUpgrade">
-        <form>Druidkin_Form_GrizzlyBear</form>
         <stat>ArmorRating_Sharp</stat>
         <offset>0.25</offset>
       </li>
@@ -207,7 +202,7 @@
   <Druidkin.WildShapeNodeDef>
     <defName>Druidkin_Node_UpgradeMegasloth</defName>
     <label>ancient plating</label>
-    <description>Thicken the megasloth's sub-dermal osteoderms. Grants the megasloth form +30% sharp armor.</description>
+    <description>Thicken the megasloth's sub-dermal osteoderms. Grants wild shape +30% sharp armor.</description>
     <cost>2</cost>
     <minLevel>13</minLevel>
     <prerequisites>
@@ -216,7 +211,6 @@
     <treePosition>(2, 3)</treePosition>
     <effects>
       <li Class="Druidkin.NodeEffect_FormUpgrade">
-        <form>Druidkin_Form_Megasloth</form>
         <stat>ArmorRating_Sharp</stat>
         <offset>0.30</offset>
       </li>

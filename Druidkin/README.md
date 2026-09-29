@@ -136,7 +136,7 @@ The player log at `~/snap/steam/common/.config/unity3d/Ludeon Studios/RimWorld b
     - **Damage taken**: take damage in animal form, confirm XP increases by `xpPerDamageTaken` per damage point.
     - **Damage dealt**: attack a hostile pawn (outside faction), confirm XP increases by `xpPerDamageDealt` per damage dealt. Confirm sparring with a colonist or colony animal does not award XP.
     - **Animal handling**: as human, tame or train an animal, confirm wild shape XP increases by `animalsXpFraction` of the Animals XP earned.
-22. Test form upgrades: Learn a form upgrade node (e.g., Wolf MoveSpeed +0.6 c/s or Grizzly Bear Sharp Armor +25%). Shift into that form and confirm the stat offset appears in the stat inspector. Shift into a different form or revert to human and confirm the upgrade stat applies only while in the upgraded form.
+22. Test form upgrades: Learn a form upgrade node (e.g., Wolf MoveSpeed +0.6 c/s or Grizzly Bear Sharp Armor +25%). Shift into any animal form and confirm the stat offset appears in the stat inspector across all forms. Revert to human and confirm the upgrade stat applies only while shifted.
 23. Test perks:
     - **Enduring shape**: Confirm shift duration increases by x1.5 (90,000 ticks).
     - **Swift return**: Confirm ability cooldown is reduced by x0.5 (1,250 ticks).

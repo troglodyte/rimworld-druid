@@ -95,5 +95,75 @@ namespace Druidkin.Tests
             Assert.That(stage.statFactors[0].stat, Is.EqualTo(armorStat));
             Assert.That(stage.statFactors[0].value, Is.EqualTo(1.25f));
         }
+
+        [Test]
+        public void FormUpgrade_WhenFormIsNull_AppliesOffsetToAllForms()
+        {
+            var wolf = new DruidkinAnimalFormDef { defName = "Form_Wolf" };
+            var bear = new DruidkinAnimalFormDef { defName = "Form_Bear" };
+            var moveSpeedStat = new StatDef { defName = "MoveSpeed" };
+
+            var upgrade = new NodeEffect_FormUpgrade
+            {
+                form = null,
+                stat = moveSpeedStat,
+                offset = 0.50f
+            };
+
+            var wolfStage = new HediffStage
+            {
+                statOffsets = new List<StatModifier>(),
+                statFactors = new List<StatModifier>()
+            };
+            upgrade.ApplyToStage(wolf, wolfStage);
+            Assert.That(wolfStage.statOffsets.Count, Is.EqualTo(1));
+            Assert.That(wolfStage.statOffsets[0].stat, Is.EqualTo(moveSpeedStat));
+            Assert.That(wolfStage.statOffsets[0].value, Is.EqualTo(0.50f));
+
+            var bearStage = new HediffStage
+            {
+                statOffsets = new List<StatModifier>(),
+                statFactors = new List<StatModifier>()
+            };
+            upgrade.ApplyToStage(bear, bearStage);
+            Assert.That(bearStage.statOffsets.Count, Is.EqualTo(1));
+            Assert.That(bearStage.statOffsets[0].stat, Is.EqualTo(moveSpeedStat));
+            Assert.That(bearStage.statOffsets[0].value, Is.EqualTo(0.50f));
+        }
+
+        [Test]
+        public void FormUpgrade_WhenFormIsNull_AppliesFactorToAllForms()
+        {
+            var wolf = new DruidkinAnimalFormDef { defName = "Form_Wolf" };
+            var bear = new DruidkinAnimalFormDef { defName = "Form_Bear" };
+            var armorStat = new StatDef { defName = "ArmorRating_Sharp" };
+
+            var upgrade = new NodeEffect_FormUpgrade
+            {
+                form = null,
+                stat = armorStat,
+                factor = 1.30f
+            };
+
+            var wolfStage = new HediffStage
+            {
+                statOffsets = new List<StatModifier>(),
+                statFactors = new List<StatModifier>()
+            };
+            upgrade.ApplyToStage(wolf, wolfStage);
+            Assert.That(wolfStage.statFactors.Count, Is.EqualTo(1));
+            Assert.That(wolfStage.statFactors[0].stat, Is.EqualTo(armorStat));
+            Assert.That(wolfStage.statFactors[0].value, Is.EqualTo(1.30f));
+
+            var bearStage = new HediffStage
+            {
+                statOffsets = new List<StatModifier>(),
+                statFactors = new List<StatModifier>()
+            };
+            upgrade.ApplyToStage(bear, bearStage);
+            Assert.That(bearStage.statFactors.Count, Is.EqualTo(1));
+            Assert.That(bearStage.statFactors[0].stat, Is.EqualTo(armorStat));
+            Assert.That(bearStage.statFactors[0].value, Is.EqualTo(1.30f));
+        }
     }
 }

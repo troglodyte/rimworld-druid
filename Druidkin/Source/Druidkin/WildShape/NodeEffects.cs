@@ -29,7 +29,8 @@ namespace Druidkin
         public override bool UnlocksForm(DruidkinAnimalFormDef form) => this.form == form;
     }
 
-    /// Enhances a specific animal form with a stat offset or factor while transformed.
+    /// Enhances wild shape forms with a stat offset or factor while transformed.
+    /// If form is specified, only that form receives the boost; if null, all animal forms receive it.
     public class NodeEffect_FormUpgrade : NodeEffect
     {
         public DruidkinAnimalFormDef form;
@@ -39,7 +40,12 @@ namespace Druidkin
 
         public override void ApplyToStage(DruidkinAnimalFormDef form, HediffStage stage)
         {
-            if (this.form != form || stat == null || stage == null)
+            if (this.form != null && this.form != form)
+            {
+                return;
+            }
+
+            if (stat == null || stage == null)
             {
                 return;
             }

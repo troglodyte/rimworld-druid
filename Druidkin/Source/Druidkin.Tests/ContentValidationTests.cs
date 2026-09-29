@@ -99,7 +99,7 @@ namespace Druidkin.Tests
             XDocument doc = XDocument.Load(nodesPath);
             var nodes = doc.Root!.Elements("Druidkin.WildShapeNodeDef").ToDictionary(n => n.Element("defName")!.Value);
 
-            // Upgrades all cost 2 and require their form
+            // Upgrades all cost 2, require their form, and apply to all forms (no form element in effects)
             string[] forms = { "Rat", "TimberWolf", "Cougar", "Muffalo", "GrizzlyBear", "Megasloth" };
             foreach (string form in forms)
             {
@@ -109,6 +109,8 @@ namespace Druidkin.Tests
                 Assert.That(nodes.ContainsKey(upgradeDef), Is.True, $"Upgrade node {upgradeDef} missing.");
                 Assert.That(int.Parse(nodes[upgradeDef].Element("cost")!.Value), Is.EqualTo(2));
                 Assert.That(nodes[upgradeDef].Element("prerequisites")?.Elements("li").Select(e => e.Value), Does.Contain(formDef));
+                Assert.That(nodes[upgradeDef].Element("effects")?.Descendants("form").Any(), Is.False,
+                    $"Upgrade node {upgradeDef} should not restrict to a single form.");
             }
 
             // Perks all cost 2
