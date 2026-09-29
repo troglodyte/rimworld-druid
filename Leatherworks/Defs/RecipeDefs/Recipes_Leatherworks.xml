@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <RecipeDef Name="LW_StuddedRecipeBase" Abstract="True">
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <effectWorking>Tailor</effectWorking>
+    <soundWorking>Recipe_Tailor</soundWorking>
+    <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
+    <researchPrerequisite>Smithing</researchPrerequisite>
+    <useIngredientsForColor>false</useIngredientsForColor>
+    <recipeUsers>
+      <li>ElectricTailoringBench</li>
+      <li>HandTailoringBench</li>
+    </recipeUsers>
+    <fixedIngredientFilter>
+      <categories>
+        <li>Leathers</li>
+      </categories>
+      <stuffCategoriesToAllow>
+        <li>Metallic</li>
+      </stuffCategoriesToAllow>
+    </fixedIngredientFilter>
+  </RecipeDef>
+
+  <RecipeDef ParentName="LW_StuddedRecipeBase">
+    <defName>LW_Make_StuddedLeatherJerkin</defName>
+    <label>make studded jerkin</label>
+    <description>Make a studded leather jerkin. The leather sets its base protection; the metal studs add more.</description>
+    <jobString>Making studded jerkin.</jobString>
+    <workAmount>9000</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>Leathers</li>
+          </categories>
+        </filter>
+        <count>70</count>
+      </li>
+      <li>
+        <filter>
+          <stuffCategoriesToAllow>
+            <li>Metallic</li>
+          </stuffCategoriesToAllow>
+        </filter>
+        <count>25</count>
+      </li>
+    </ingredients>
+    <products>
+      <LW_Apparel_StuddedLeatherJerkin>1</LW_Apparel_StuddedLeatherJerkin>
+    </products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="LW_StuddedRecipeBase">
+    <defName>LW_Make_StuddedLeatherCap</defName>
+    <label>make studded cap</label>
+    <description>Make a studded leather cap. The leather sets its base protection; the metal studs add more.</description>
+    <jobString>Making studded cap.</jobString>
+    <workAmount>3000</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>Leathers</li>
+          </categories>
+        </filter>
+        <count>25</count>
+      </li>
+      <li>
+        <filter>
+          <stuffCategoriesToAllow>
+            <li>Metallic</li>
+          </stuffCategoriesToAllow>
+        </filter>
+        <count>10</count>
+      </li>
+    </ingredients>
+    <products>
+      <LW_Apparel_StuddedLeatherCap>1</LW_Apparel_StuddedLeatherCap>
+    </products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="LW_StuddedRecipeBase">
+    <defName>LW_Make_StuddedLeatherGreaves</defName>
+    <label>make studded greaves</label>
+    <description>Make a studded leather greaves. The leather sets its base protection; the metal studs add more.</description>
+    <jobString>Making studded greaves.</jobString>
+    <workAmount>6000</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>Leathers</li>
+          </categories>
+        </filter>
+        <count>45</count>
+      </li>
+      <li>
+        <filter>
+          <stuffCategoriesToAllow>
+            <li>Metallic</li>
+          </stuffCategoriesToAllow>
+        </filter>
+        <count>15</count>
+      </li>
+    </ingredients>
+    <products>
+      <LW_Apparel_StuddedLeatherGreaves>1</LW_Apparel_StuddedLeatherGreaves>
+    </products>
+  </RecipeDef>
+
+</Defs>

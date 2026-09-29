@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!-- Priority 50: after StatPart_Stuff (100), before StatPart_Quality (0), so quality scales the stud bonus. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/StatDef[defName="ArmorRating_Sharp" or defName="ArmorRating_Blunt"]/parts</xpath>
+    <value>
+      <li Class="Leatherworks.StatPart_StuddedMetal">
+        <priority>50</priority>
+      </li>
+    </value>
+  </Operation>
+</Patch>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Leatherworks</name>
+  <author>throwingfish</author>
+  <packageId>throwingfish.leatherworks</packageId>
+  <supportedVersions>
+    <li>1.6</li>
+  </supportedVersions>
+  <loadAfter>
+    <li>Ludeon.RimWorld</li>
+  </loadAfter>
+  <description>Leather armor for early-game and tribal colonies.
+
+Adds a leather jerkin, cap and greaves, each in a plain and a studded variant. Protection scales with the leather used; studded pieces also gain protection from the metal used for their studs.
+
+No DLC required.</description>
+</ModMetaData>

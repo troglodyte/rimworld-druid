@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===== Shared base ===== -->
+
+  <ThingDef Name="LW_LeatherArmorBase" ParentName="ApparelBase" Abstract="True">
+    <stuffCategories>
+      <li>Leathery</li>
+    </stuffCategories>
+    <thingCategories>
+      <li>ApparelArmor</li>
+    </thingCategories>
+    <tradeTags>
+      <li>Armor</li>
+    </tradeTags>
+    <apparel>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+  </ThingDef>
+
+  <!-- ===== Piece parents ===== -->
+
+  <ThingDef Name="LW_JerkinBase" ParentName="LW_LeatherArmorBase" Abstract="True">
+    <description>A sturdy jerkin of boiled, layered leather covering the torso, shoulders and arms. Better than clothing, lighter than real armor.</description>
+    <graphicData>
+      <texPath>Things/Pawn/Humanlike/Apparel/FlakVest/FlakVest</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.90</drawSize>
+    </graphicData>
+    <costStuffCount>70</costStuffCount>
+    <statBases>
+      <MaxHitPoints>180</MaxHitPoints>
+      <Mass>2.5</Mass>
+      <EquipDelay>3</EquipDelay>
+      <StuffEffectMultiplierArmor>0.55</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>0.50</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>0.15</StuffEffectMultiplierInsulation_Heat>
+    </statBases>
+    <apparel>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Neck</li>
+        <li>Shoulders</li>
+        <li>Arms</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Things/Pawn/Humanlike/Apparel/FlakVest/FlakVest</wornGraphicPath>
+      <layers>
+        <li>Middle</li>
+      </layers>
+    </apparel>
+  </ThingDef>
+
+  <ThingDef Name="LW_CapBase" ParentName="LW_LeatherArmorBase" Abstract="True">
+    <description>A close-fitting cap of hardened leather that protects the top of the head.</description>
+    <graphicData>
+      <texPath>Things/Pawn/Humanlike/Apparel/SimpleHelmet/SimpleHelmet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <costStuffCount>25</costStuffCount>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <Mass>0.6</Mass>
+      <EquipDelay>1</EquipDelay>
+      <StuffEffectMultiplierArmor>0.45</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>0.20</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>0.05</StuffEffectMultiplierInsulation_Heat>
+    </statBases>
+    <apparel>
+      <bodyPartGroups>
+        <li>UpperHead</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Things/Pawn/Humanlike/Apparel/SimpleHelmet/SimpleHelmet</wornGraphicPath>
+      <layers>
+        <li>Overhead</li>
+      </layers>
+    </apparel>
+  </ThingDef>
+
+  <ThingDef Name="LW_GreavesBase" ParentName="LW_LeatherArmorBase" Abstract="True">
+    <description>Thick leather leg guards strapped over trousers.</description>
+    <graphicData>
+      <texPath>Things/Pawn/Humanlike/Apparel/FlakPants/FlakPants</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <costStuffCount>45</costStuffCount>
+    <statBases>
+      <MaxHitPoints>120</MaxHitPoints>
+      <Mass>1.5</Mass>
+      <EquipDelay>2</EquipDelay>
+      <StuffEffectMultiplierArmor>0.55</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>0.30</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>0.10</StuffEffectMultiplierInsulation_Heat>
+    </statBases>
+    <apparel>
+      <bodyPartGroups>
+        <li>Legs</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Middle</li>
+      </layers>
+    </apparel>
+  </ThingDef>
+
+  <!-- ===== Plain pieces (Neolithic, no research) ===== -->
+
+  <ThingDef ParentName="LW_JerkinBase">
+    <defName>LW_Apparel_LeatherJerkin</defName>
+    <label>jerkin</label>
+    <techLevel>Neolithic</techLevel>
+    <statBases>
+      <WorkToMake>6000</WorkToMake>
+    </statBases>
+    <recipeMaker>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <effectWorking>Tailor</effectWorking>
+      <soundWorking>Recipe_Tailor</soundWorking>
+      <recipeUsers>
+        <li>ElectricTailoringBench</li>
+        <li>HandTailoringBench</li>
+      </recipeUsers>
+      <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
+      <displayPriority>210</displayPriority>
+    </recipeMaker>
+    <apparel>
+      <tags>
+        <li>Neolithic</li>
+      </tags>
+    </apparel>
+  </ThingDef>
+
+  <ThingDef ParentName="LW_CapBase">
+    <defName>LW_Apparel_LeatherCap</defName>
+    <label>cap</label>
+    <techLevel>Neolithic</techLevel>
+    <statBases>
+      <WorkToMake>2000</WorkToMake>
+    </statBases>
+    <recipeMaker>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <effectWorking>Tailor</effectWorking>
+      <soundWorking>Recipe_Tailor</soundWorking>
+      <recipeUsers>
+        <li>ElectricTailoringBench</li>
+        <li>HandTailoringBench</li>
+      </recipeUsers>
+      <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
+      <displayPriority>211</displayPriority>
+    </recipeMaker>
+    <apparel>
+      <tags>
+        <li>Neolithic</li>
+      </tags>
+    </apparel>
+  </ThingDef>
+
+  <ThingDef ParentName="LW_GreavesBase">
+    <defName>LW_Apparel_LeatherGreaves</defName>
+    <label>greaves</label>
+    <techLevel>Neolithic</techLevel>
+    <statBases>
+      <WorkToMake>4000</WorkToMake>
+    </statBases>
+    <recipeMaker>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <effectWorking>Tailor</effectWorking>
+      <soundWorking>Recipe_Tailor</soundWorking>
+      <recipeUsers>
+        <li>ElectricTailoringBench</li>
+        <li>HandTailoringBench</li>
+      </recipeUsers>
+      <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
+      <displayPriority>212</displayPriority>
+    </recipeMaker>
+    <apparel>
+      <tags>
+        <li>Neolithic</li>
+      </tags>
+    </apparel>
+  </ThingDef>
+
+  <!-- ===== Studded pieces (Medieval, Smithing; crafted via Recipes_Leatherworks.xml) ===== -->
+
+  <ThingDef ParentName="LW_JerkinBase">
+    <defName>LW_Apparel_StuddedLeatherJerkin</defName>
+    <label>studded jerkin</label>
+    <techLevel>Medieval</techLevel>
+    <costList>
+      <Steel>25</Steel>
+    </costList>
+    <statBases>
+      <WorkToMake>9000</WorkToMake>
+    </statBases>
+    <equippedStatOffsets>
+      <MoveSpeed>-0.05</MoveSpeed>
+    </equippedStatOffsets>
+    <comps>
+      <li Class="Leatherworks.CompProperties_StuddedMetal" />
+    </comps>
+    <apparel>
+      <tags>
+        <li>IndustrialBasic</li>
+      </tags>
+    </apparel>
+  </ThingDef>
+
+  <ThingDef ParentName="LW_CapBase">
+    <defName>LW_Apparel_StuddedLeatherCap</defName>
+    <label>studded cap</label>
+    <techLevel>Medieval</techLevel>
+    <costList>
+      <Steel>10</Steel>
+    </costList>
+    <statBases>
+      <WorkToMake>3000</WorkToMake>
+    </statBases>
+    <comps>
+      <li Class="Leatherworks.CompProperties_StuddedMetal" />
+    </comps>
+    <apparel>
+      <tags>
+        <li>IndustrialBasic</li>
+      </tags>
+    </apparel>
+  </ThingDef>
+
+  <ThingDef ParentName="LW_GreavesBase">
+    <defName>LW_Apparel_StuddedLeatherGreaves</defName>
+    <label>studded greaves</label>
+    <techLevel>Medieval</techLevel>
+    <costList>
+      <Steel>15</Steel>
+    </costList>
+    <statBases>
+      <WorkToMake>6000</WorkToMake>
+    </statBases>
+    <equippedStatOffsets>
+      <MoveSpeed>-0.05</MoveSpeed>
+    </equippedStatOffsets>
+    <comps>
+      <li Class="Leatherworks.CompProperties_StuddedMetal" />
+    </comps>
+    <apparel>
+      <tags>
+        <li>IndustrialBasic</li>
+      </tags>
+    </apparel>
+  </ThingDef>
+
+</Defs>
